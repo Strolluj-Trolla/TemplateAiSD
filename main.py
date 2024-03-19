@@ -6,12 +6,10 @@ from sortingAlgorithms import quickSortRand as qsr
 from sortingAlgorithms import heapSort as heap
 from sortingAlgorithms import selectionSort as sel
 
-import copy
-
 
 def sort_using_algorithm(data, algorithm):
 
-    sorted_data=copy.deepcopy(data)
+    sorted_data=data
     if algorithm==1:
         ins.insertionSort(sorted_data)
     elif algorithm==2:
@@ -24,8 +22,6 @@ def sort_using_algorithm(data, algorithm):
         qsl.quickSortLeft(sorted_data,0, len(data)-1)
     elif algorithm==6:
         qsr.quickSortRand(sorted_data,0, len(data)-1)
-    else:
-        sorted_data=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     return sorted_data
 
@@ -48,7 +44,7 @@ def main():
     sorted_data = sort_using_algorithm(data, algorithm_number)
 
     # Print the sorted data
-    print("Sorted data:", sorted_data[0:10])
+    #print("Sorted data:", sorted_data[0:10])
 
 if __name__ == "__main__":
     main()
