@@ -17,10 +17,10 @@ def generate_a_shaped_array(size):
     half_size = size // 2
     increasing_part = np.arange(half_size)
     decreasing_part = np.arange(half_size, 0, -1)
-    return np.concatenate((increasing_part, decreasing_part))
+    return np.concatenate((increasing_part, decreasing_part))  
 
 # Set the sizes for the arrays
-sizes = [100*x for x in range(1, 1001)]
+sizes = [2**x for x in range(1, 11)]
 
 for size in sizes:
     # Generate arrays

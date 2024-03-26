@@ -6,9 +6,9 @@ def heap_restore(lst, index, limit):
         left = index*2+1
         right = index*2+2
         if max(left, right) < limit:
-            if lst[index] >= max(lst[left], lst[right]):
+            if lst[index] <= min(lst[left], lst[right]):
                 return
-            elif lst[left]>lst[right]:
+            elif lst[left]<lst[right]:
                 swap(lst, index, left)
                 index = left
             else:
@@ -21,7 +21,7 @@ def heap_restore(lst, index, limit):
             else:
                 return
         elif right < limit:
-            if lst[right] > lst[index]:
+            if lst[right] < lst[index]:
                 swap(lst, index, right)
                 index = right
             else:
@@ -32,7 +32,7 @@ def heap_restore(lst, index, limit):
 def heap_sort(lst):
     for i in range((len(lst)-2)//2, -1, -1):
         heap_restore(lst, i, len(lst))
-    print(lst)
+    #print(lst)
     for i in range(len(lst)-1, 0, -1): #i is the index of last element
         swap(lst, 0, i)
         heap_restore(lst, 0, i)

@@ -6,9 +6,9 @@ def quickSortLeft(tab, start, end):
     j=end
 
     while i<=j:
-        while(tab[i]<pivot):
+        while(tab[i]>pivot):
             i+=1
-        while(tab[j]>pivot):
+        while(tab[j]<pivot):
             j-=1
 
         if(i<=j):
