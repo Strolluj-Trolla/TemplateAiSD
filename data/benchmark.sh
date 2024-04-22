@@ -15,24 +15,24 @@ benchmark() {
     runcurrent=$runpython
 
     echo "Benchmarking Algorithm $algorithm with input $input_file"
-    result=$(/usr/bin/time -f "%e" ${runcurrent} --algorithm $algorithm < $input_file 2>&1 >/dev/null)
+    result=$(/usr/bin/time -f "%U" ${runcurrent} --algorithm $algorithm < $input_file 2>&1 >/dev/null)
     echo "Result $result"
     time=$(echo $result | head -1)  # Extract real time from the time command output
     echo $time
     size=$(head -n 1 $input_file)
     # Append results to CSV file
-    echo "$algorithm_name,$size,$time" >> benchmark_results_${input_type}.csv
+    echo "$input_type,$size,$time" >> benchmark_results_${algorithm_name}.csv #_${input_type}.csv
     echo "------------------------"
 }
 
 # Map algorithm names to numbers
 declare -A algorithm_mapping=(
-    ["insertion_sort"]=1
-    ["shell_sort"]=2
-    ["selection_sort"]=3
-    ["heap_sort"]=4
+    #["insertion_sort"]=1
+    #["shell_sort"]=2
+    #["selection_sort"]=3
+    #["heap_sort"]=4
     ["quick_sort_left_pivot"]=5
-    ["quick_sort_random_pivot"]=6
+    #["quick_sort_random_pivot"]=6
 )
 
 # Create a reverse mapping from numbers to algorithm names
@@ -48,11 +48,13 @@ input_files=("random_array" "increasing_array" "decreasing_array" "constant_arra
 #input_files=("random_array")
 
 # Create or clear the CSV file
-#echo "Algorithm,InputSize,Time" > benchmark_results.csv
+for algorithm_name in "${!algorithm_mapping[@]}"; do
+    echo "InputType,InputSize,Time" > benchmark_results_${algorithm_name}.csv
+done
 
 # Run the benchmark for each input file, sorting algorithm, and size
 for input_type in "${input_files[@]}"; do
-    echo "Algorithm,InputSize,Time" > benchmark_results_${input_type}.csv
+    #echo "Algorithm,InputSize,Time" > benchmark_results_${input_type}.csv
     for algorithm_name in "${!algorithm_mapping[@]}"; do
         algorithm_number=${algorithm_mapping[$algorithm_name]}
         for input_file in "benchmark/${input_type}_"*".txt"; do

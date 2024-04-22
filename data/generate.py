@@ -20,7 +20,7 @@ def generate_a_shaped_array(size):
     return np.concatenate((increasing_part, decreasing_part))  
 
 # Set the sizes for the arrays
-sizes = [2**x for x in range(1, 11)]
+sizes = [2**x for x in range(1, 16)]
 
 for size in sizes:
     # Generate arrays
