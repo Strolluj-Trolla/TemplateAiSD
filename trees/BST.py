@@ -155,10 +155,10 @@ class BSTnode:
             return 0
         else:
             if rotator>self.value and self.right!=None:
-                self.right.rotateLeft(rotator)
+                self.right.rotateRight(rotator)
                 return 0
             if rotator<self.value and self.left!=None:
-                self.left.rotateLeft(rotator)
+                self.left.rotateRight(rotator)
                 return 0
         return 0
             
