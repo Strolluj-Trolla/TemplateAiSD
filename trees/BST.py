@@ -1,3 +1,5 @@
+from math import log2
+
 class BSTnode:
 
     def __init__(self, value: int):
@@ -145,6 +147,7 @@ class BSTnode:
                 return 0
         return 0
 
+    #rotator is not pivot
     def rotateRight(self, rotator: int):
         if rotator==self.value:
             newRight=BSTnode(self.value)
@@ -162,16 +165,39 @@ class BSTnode:
                 self.left.rotateRight(rotator)
                 return 0
         return 0
-
-    def degenerate(self):
+    
+    def degenerate(self, count: int):
         if self.left != None:
             self.rotateRight(self.value)
-            self.degenerate()
+            count = self.degenerate(count)
         else:
             if self.right != None:
-                self.right.degenerate()
-            return 0
-        return 0        
+                count = self.right.degenerate(count)
+            return count+1
+        return count
+
+    def DSW(self):
+        count = 0
+        count = self.degenerate(count)
+        rotationCount = count + 1 - 2**(int(log2(count + 1)))
+        node = self
+        ct = rotationCount
+        while ct>0:
+            node.rotateLeft(node.value)
+            node=node.right
+            ct -= 1
+            
+        
+        y = count - rotationCount
+        while y>1:
+            node = self
+            tmp = int(y/2)
+            print(self.preOrder())
+            while tmp > 0:
+                node.rotateLeft(node.value)
+                node=node.right
+                tmp -= 1
+            y=int(y/2)
 
 inp=input("Podaj liste: ")
 inp=[int(x) for x in inp.strip().split()]
@@ -206,7 +232,7 @@ print("")
 # print("Pre-order: "+tree.preOrder())
 # print("Post-order: "+tree.postOrder())
 # print("Degenerated: ")
-tree.degenerate()
+tree.DSW()
 print("In-order: "+tree.inOrder())
 print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
