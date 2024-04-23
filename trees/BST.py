@@ -13,7 +13,7 @@ class BSTnode:
     def maxNode(self) -> int:
         if self.right==None:
             return self.value
-        return self.right.minNode()
+        return self.right.maxNode()
     
     def addNode(self, newValue: int):
         if newValue>self.value:
