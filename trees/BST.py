@@ -126,6 +126,7 @@ class BSTnode:
         for elem in elems:
             self.delete(elem)
 
+    #rotator is not pivot
     def rotateLeft(self, rotator: int):
         if rotator==self.value:
             newLeft=BSTnode(self.value)
@@ -155,13 +156,23 @@ class BSTnode:
             return 0
         else:
             if rotator>self.value and self.right!=None:
-                self.right.rotateLeft(rotator)
+                self.right.rotateRight(rotator)
                 return 0
             if rotator<self.value and self.left!=None:
-                self.left.rotateLeft(rotator)
+                self.left.rotateRight(rotator)
                 return 0
         return 0
-            
+
+    def degenerate(self):
+        if self.left != None:
+            self.rotateRight(self.value)
+            self.degenerate()
+        else:
+            if self.right != None:
+                self.right.degenerate()
+            return 0
+        return 0        
+
 inp=input("Podaj liste: ")
 inp=[int(x) for x in inp.strip().split()]
 
@@ -179,17 +190,23 @@ print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
 #print(tree.TiKZgenerate())
 
-tree.rotateRight(4)
+# tree.rotateRight(2)
+# tree.rotateRight(7)
 
 print("")
 
-print("In-order: "+tree.inOrder())
-print("Pre-order: "+tree.preOrder())
-print("Post-order: "+tree.postOrder())
+# print("In-order: "+tree.inOrder())
+# print("Pre-order: "+tree.preOrder())
+# print("Post-order: "+tree.postOrder())
 
-tree.rotateLeft(2)
+# tree.rotateLeft(2)
 
-print("")
+# print("")
+# print("In-order: "+tree.inOrder())
+# print("Pre-order: "+tree.preOrder())
+# print("Post-order: "+tree.postOrder())
+# print("Degenerated: ")
+tree.degenerate()
 print("In-order: "+tree.inOrder())
 print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
