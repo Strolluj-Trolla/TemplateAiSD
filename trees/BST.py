@@ -22,7 +22,7 @@ class BSTnode:
                 return
             self.right.addNode(newValue)
             return
-        if self.right==None:
+        if self.left==None:
             self.left=BSTnode(newValue)
             return 
         self.left.addNode(newValue)
@@ -34,7 +34,7 @@ class BSTnode:
         if self.left!=None:
             res+=self.left.preOrder()
         if self.right!=None:
-            res+=self.right.preOrder()[:-2]
+            res+=self.right.preOrder()
         return res
 
     def inOrder(self) -> str:
@@ -43,7 +43,7 @@ class BSTnode:
             res+=self.left.inOrder()
         res+=str(self.value)+", "
         if self.right!=None:
-            res+=self.right.inOrder()[:-2]
+            res+=self.right.inOrder()
         return res
     
     def postOrder(self) -> str:
@@ -66,15 +66,48 @@ class BSTnode:
         return "\\"+res
     
     def delete(self, value):
-        return 0
+        if self.value==value:
+            if self.left==None and self.right==None:
+                self=None
+                return
+            if self.left==None:
+                self=self.right
+                return
+            if self.right==None:
+                self=self.left
+                return
+            if abs(self.left.maxNode())-abs(value<self.right.minNode()-value):
+                value=self.left.maxNode()
+                self.value=value
+                self.left.delete(value)
+                return
+            else:
+                value=self.right.minNode()
+                self.value=value
+                self.right.delete(value)
+                return
+        else:
+            if self.left==None and self.right==None:
+                return
+            if value>self.value:
+                self.right.delete(value)
+                return
+            self.left.delete(value)
+            return
             
+inp=input("Podaj liste: ")
+inp=[int(x) for x in inp.strip().split()]
+
+print(inp)
+
+tree=BSTnode(inp.pop(0))
+for num in inp:
+    tree.addNode(num)
     
-tree=BSTnode(9)
-tree.addNode(6)
-tree.addNode(12)
-print(tree.maxNode())
-print(tree.minNode())
-print(tree.inOrder())
-print(tree.preOrder())
-print(tree.postOrder())
+print("Max "+str(tree.maxNode()))
+print("Min "+str(tree.minNode()))
+
+print("In-order: "+tree.inOrder())
+print("Pre-order: "+tree.preOrder())
+print("Post-order: "+tree.postOrder())
 print(tree.TiKZgenerate())
