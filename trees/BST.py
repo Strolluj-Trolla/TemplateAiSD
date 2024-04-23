@@ -120,6 +120,47 @@ class BSTnode:
                     self.left=self.left.right
                 return 0
             return 0
+        
+    def ereaseTree(self):
+        elems=self.postOrder().replace(",","").split()
+        for elem in elems:
+            self.delete(elem)
+
+    def rotateLeft(self, rotator: int):
+        if rotator==self.value:
+            newLeft=BSTnode(self.value)
+            newLeft.left=self.left
+            newLeft.right=self.right.left
+            self.value=self.right.value
+            self.left=newLeft
+            self.right=self.right.right
+            return 0
+        else:
+            if rotator>self.value and self.right!=None:
+                self.right.rotateLeft(rotator)
+                return 0
+            if rotator<self.value and self.left!=None:
+                self.left.rotateLeft(rotator)
+                return 0
+        return 0
+
+    def rotateRight(self, rotator: int):
+        if rotator==self.value:
+            newRight=BSTnode(self.value)
+            newRight.right=self.right
+            newRight.left=self.left.right
+            self.value=self.left.value
+            self.left=self.left.left
+            self.right=newRight
+            return 0
+        else:
+            if rotator>self.value and self.right!=None:
+                self.right.rotateLeft(rotator)
+                return 0
+            if rotator<self.value and self.left!=None:
+                self.left.rotateLeft(rotator)
+                return 0
+        return 0
             
 inp=input("Podaj liste: ")
 inp=[int(x) for x in inp.strip().split()]
@@ -138,8 +179,17 @@ print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
 #print(tree.TiKZgenerate())
 
-tree.delete(8)
+tree.rotateRight(4)
 
+print("")
+
+print("In-order: "+tree.inOrder())
+print("Pre-order: "+tree.preOrder())
+print("Post-order: "+tree.postOrder())
+
+tree.rotateLeft(2)
+
+print("")
 print("In-order: "+tree.inOrder())
 print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
