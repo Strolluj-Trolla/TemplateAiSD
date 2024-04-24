@@ -18,6 +18,9 @@ class BSTnode:
         return self.right.maxNode()
     
     def addNode(self, newValue: int):
+        if self.value == None:
+            self.value = newValue
+            return
         if newValue>self.value:
             if self.right==None:
                 self.right=BSTnode(newValue)
@@ -70,7 +73,7 @@ class BSTnode:
     def delete(self, value) -> int:
         if self.value==value:
             if self.left==None and self.right==None:
-                self=None
+                self.value=None
                 return 1
             if self.left==None:
                 self=self.right
@@ -126,7 +129,7 @@ class BSTnode:
     def ereaseTree(self):
         elems=self.postOrder().replace(",","").split()
         for elem in elems:
-            self.delete(elem)
+            self.delete(int(elem))
 
     #rotator is not pivot
     def rotateLeft(self, rotator: int):
@@ -233,6 +236,11 @@ print("")
 # print("Post-order: "+tree.postOrder())
 # print("Degenerated: ")
 tree.DSW()
+tree.delete(10)
+tree.addNode(9)
+tree.addNode(5)
+tree.addNode(11)
+# tree.ereaseTree()
 print("In-order: "+tree.inOrder())
 print("Pre-order: "+tree.preOrder())
 print("Post-order: "+tree.postOrder())
