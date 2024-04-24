@@ -195,34 +195,33 @@ class BSTnode:
         while y>1:
             node = self
             tmp = int(y/2)
-            print(self.preOrder())
             while tmp > 0:
                 node.rotateLeft(node.value)
                 node=node.right
                 tmp -= 1
             y=int(y/2)
 
-inp=input("Podaj liste: ")
-inp=[int(x) for x in inp.strip().split()]
+# inp=input("Podaj liste: ")
+# inp=[int(x) for x in inp.strip().split()]
 
-print(inp)
+# print(inp)
 
-tree=BSTnode(inp.pop(0))
-for num in inp:
-    tree.addNode(num)
+# tree=BSTnode(inp.pop(0))
+# for num in inp:
+#     tree.addNode(num)
     
-print("Max "+str(tree.maxNode()))
-print("Min "+str(tree.minNode()))
+# print("Max "+str(tree.maxNode()))
+# print("Min "+str(tree.minNode()))
 
-print("In-order: "+tree.inOrder())
-print("Pre-order: "+tree.preOrder())
-print("Post-order: "+tree.postOrder())
+# print("In-order: "+tree.inOrder())
+# print("Pre-order: "+tree.preOrder())
+# print("Post-order: "+tree.postOrder())
 #print(tree.TiKZgenerate())
 
 # tree.rotateRight(2)
 # tree.rotateRight(7)
 
-print("")
+# print("")
 
 # print("In-order: "+tree.inOrder())
 # print("Pre-order: "+tree.preOrder())
@@ -235,12 +234,12 @@ print("")
 # print("Pre-order: "+tree.preOrder())
 # print("Post-order: "+tree.postOrder())
 # print("Degenerated: ")
-tree.DSW()
-tree.delete(10)
-tree.addNode(9)
-tree.addNode(5)
-tree.addNode(11)
-# tree.ereaseTree()
-print("In-order: "+tree.inOrder())
-print("Pre-order: "+tree.preOrder())
-print("Post-order: "+tree.postOrder())
+# tree.DSW()
+# tree.delete(10)
+# tree.addNode(9)
+# tree.addNode(5)
+# tree.addNode(11)
+# # tree.ereaseTree()
+# print("In-order: "+tree.inOrder())
+# print("Pre-order: "+tree.preOrder())
+# print("Post-order: "+tree.postOrder())
