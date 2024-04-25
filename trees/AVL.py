@@ -4,22 +4,63 @@ class AVLnode:
         self.value=value
         self.left=None
         self.right=None
+        self.balanceFactor=0
+
+    def __str__(self):
+        return str(self.value)+", balance "+str(self.balanceFactor)
+
+    def rebalance(self):
+        return
+        if abs(self.balanceFactor)>1:
+            if self.right==None:
+                high="left"
+            elif self.left==None:
+                high="right"
+            else:
+                high="right" if self.right.balanceFactor>self.left.balanceFactor else "left"
+            if high=="right":
+                if self.right.balanceFactor>=0:
+                    self.rotateLeft(self.value)
+                else:
+                    self.rotateRight(self.right.value)
+                    self.rotateLeft(self.value)
+            if high=="left":
+                if self.left.balanceFactor<=0:
+                    self.rotateRight(self.value)
+                else:
+                    self.rotateLeft(self.left.value)
+                    self.rotateRight(self.value)
+        return
 
     def addNode(self, newValue: int):
         if self.value == None:
             self.value = newValue
-            return
+            return 1
         if newValue>self.value:
             if self.right==None:
+                self.balanceFactor+=1
                 self.right=AVLnode(newValue)
-                return
-            self.right.addNode(newValue)
-            return
+                return 1
+            change=self.right.addNode(newValue)
+            if change!=0:
+                change=1
+            self.balanceFactor+=change
+            if abs(self.balanceFactor)>1:
+                self.rebalance()
+                return 0
+            return change
         if self.left==None:
+            self.balanceFactor-=1
             self.left=AVLnode(newValue)
-            return 
-        self.left.addNode(newValue)
-        return
+            return -1
+        change=self.left.addNode(newValue)
+        if change!=0:
+            change=-1
+        self.balanceFactor+=change
+        if abs(self.balanceFactor)>1:
+            self.rebalance()
+            return 0
+        return change
     
     def preOrder(self) -> str:
         res=""
@@ -62,55 +103,95 @@ class AVLnode:
         if self.value==value:
             if self.left==None and self.right==None:
                 self.value=None
-                return 1
-            if self.left==None:
-                self=self.right
+                self.balanceFactor=0
                 return 3
+            if self.left==None:
+                #self=self.right
+                return -1
             if self.right==None:
-                self=self.left
-                return 2
-            if abs(self.left.maxNode())-abs(value<self.right.minNode()-value):
+                #self=self.left
+                return 1
+            if abs(self.left.maxNode()-self.value)<abs(self.right.minNode()-value):
                 value=self.left.maxNode()
                 self.value=value
+                prev_bal=self.left.balanceFactor
                 res=self.left.delete(value)
-                if res==1:
-                    self.left=None
-                if res==2:
-                    self.left=self.left.left
                 if res==3:
+                    self.left=None
+                if res==1:
+                    self.left=self.left.left
+                if res==-1:
                     self.left=self.left.right
+                    res=1
+                if res!=0:
+                    self.balanceFactor+=1
+                    if abs(self.balanceFactor)>1:
+                        self.rebalance()
+                        if prev_bal==0:
+                            return 2
+                        return 0
+                    return 2
                 return 0
             else:
                 value=self.right.minNode()
                 self.value=value
                 self.right.delete(value)
-                if res==1:
-                    self.right=None
-                if res==2:
-                    self.right=self.right.left
+                prev_bal=self.right.balanceFactor
                 if res==3:
+                    self.right=None
+                if res==1:
+                    self.right=self.right.left
+                if res==-1:
                     self.right=self.right.right
+                    res=1
+                if res!=0:
+                    self.balanceFactor-=1
+                    if abs(self.balanceFactor)>1:
+                        self.rebalance()
+                        if prev_bal==0:
+                            return 2
+                        return 0
+                    return 2
                 return 0
         else:
             if self.left==None and self.right==None:
                 return 0
             if value>self.value:
+                prev_bal=self.right.balanceFactor
                 res=self.right.delete(value)
-                if res==1:
-                    self.right=None
-                if res==2:
-                    self.right=self.right.left
                 if res==3:
+                    self.right=None
+                if res==1:
+                    self.right=self.right.left
+                if res==-1:
                     self.right=self.right.right
+                    res=1
+                if res!=0:
+                    self.balanceFactor-=1
+                    if abs(self.balanceFactor)>1:
+                        self.rebalance()
+                        if prev_bal==0:
+                            return 2
+                        return 0
+                    return 2
                 return 0
             if value<self.value:
+                prev_bal=self.left.balanceFactor
                 res=self.left.delete(value)
-                if res==1:
-                    self.left=None
-                if res==2:
-                    self.left=self.left.left
                 if res==3:
+                    self.left=None
+                if res==1:
+                    self.left=self.left.left
+                if res==-1:
                     self.left=self.left.right
+                if res!=0:
+                    self.balanceFactor+=1
+                    if abs(self.balanceFactor)>1:
+                        self.rebalance()
+                        if prev_bal==0:
+                            return 2
+                        return 0
+                    return 2
                 return 0
             return 0
         
@@ -122,10 +203,12 @@ class AVLnode:
     #rotator is not pivot
     def rotateLeft(self, rotator: int):
         if rotator==self.value:
-            newLeft=BSTnode(self.value)
+            newLeft=AVLnode(self.value)
             newLeft.left=self.left
             newLeft.right=self.right.left
+            newLeft.balanceFactor=self.balanceFactor-1
             self.value=self.right.value
+            self.balanceFactor-=2
             self.left=newLeft
             self.right=self.right.right
             return 0
@@ -141,10 +224,12 @@ class AVLnode:
     #rotator is not pivot
     def rotateRight(self, rotator: int):
         if rotator==self.value:
-            newRight=BSTnode(self.value)
+            newRight=AVLnode(self.value)
             newRight.right=self.right
             newRight.left=self.left.right
+            newRight.balanceFactor=self.balanceFactor+1
             self.value=self.left.value
+            self.balanceFactor+=2
             self.left=self.left.left
             self.right=newRight
             return 0
@@ -158,6 +243,15 @@ class AVLnode:
         return 0
 
     def AVLconstruct(self, list):
+        #loops=1
+        #while len(list)>0:
+        #    added=0
+        #    median = int(len(list)/2**loops)
+        #    for i in range(0,loops, 1):
+        #        self.addNode(list.pop(median*(i+1)))
+        #        added+=1
+        #    loops+=1
+        #return
         if len(list)==0:
             return
         median = int(len(list)/2)
@@ -175,4 +269,8 @@ inp.sort()
 print(inp)
 tree=AVLnode(None)
 tree.AVLconstruct(inp)
+print(tree.preOrder())
+print(tree.postOrder())
+tree.delete(4)
+print(tree.preOrder())
 print(tree.postOrder())
