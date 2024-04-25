@@ -10,18 +10,20 @@ python3 HelloWorld.py
 Python as a interpreted language executes code directly without a separate compilation step, 
 translating and running the source code on-the-fly during execution.
 """
+
 # Checks if the Python script is being run as the main program (not imported as a module)
 if len(sys.argv) != 3 or sys.argv[1] != "--tree":
         print("Usage: python script.py --tree <BST or AVL>")
         sys.exit(1)
 
 
-# print(sys.argv)
+
 if sys.argv[2] == "BST":
     if __name__ == "__main__":
         userInput = ""
         print("Give nodes to add (numbers separated by space)")
         node = list(map(int, input("node> ").split()))
+        print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
         tree = BST.BSTnode(node[0])
         for i in node[1:]:
             tree.addNode(i)
@@ -72,6 +74,7 @@ if sys.argv[2] == "BST":
             if userInput == "Add":
                 print("Give nodes to add (numbers separated by space)")
                 node = list(map(int, input("node> ").split()))
+                print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
                 for i in node:
                     tree.addNode(i) 
 
@@ -81,6 +84,7 @@ if sys.argv[2] == "AVL":
         userInput = ""
         print("Give nodes to add (numbers separated by space)")
         node = list(map(int, input("node> ").split()))
+        print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
         tree = AVL.AVLnode(node[0])
         for i in node[1:]:
             tree.addNode(i)
@@ -131,6 +135,7 @@ if sys.argv[2] == "AVL":
             if userInput == "Add":
                 print("Give nodes to add (numbers separated by space)")
                 node = list(map(int, input("node> ").split()))
+                print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
                 for i in node:
                     tree.addNode(i)
         
