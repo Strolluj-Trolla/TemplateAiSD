@@ -297,14 +297,14 @@ class AVLnode:
         return
 
 
-inp=input("Podaj liste: ")
-inp=[int(x) for x in inp.strip().split()]
-inp.sort()
-print(inp)
-tree=AVLnode(None)
-tree.AVLconstruct(inp)
-print(tree.preOrder())
-print(tree.postOrder())
-tree.delete(4)
-print(tree.preOrder())
-print(tree.postOrder())
+# inp=input("Podaj liste: ")
+# inp=[int(x) for x in inp.strip().split()]
+# inp.sort()
+# print(inp)
+# tree=AVLnode(None)
+# tree.AVLconstruct(inp)
+# print(tree.preOrder())
+# print(tree.postOrder())
+# tree.delete(4)
+# print(tree.preOrder())
+# print(tree.postOrder())
