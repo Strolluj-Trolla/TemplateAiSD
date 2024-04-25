@@ -6,6 +6,9 @@ class BSTnode:
         self.value=value
         self.left=None
         self.right=None
+
+    def __str__(self):
+        return str(self.value)
     
     def minNode(self) -> int:
         if self.left==None:

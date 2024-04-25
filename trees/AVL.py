@@ -10,7 +10,7 @@ class AVLnode:
         return str(self.value)+", balance "+str(self.balanceFactor)
 
     def rebalance(self):
-        return
+        #return
         if abs(self.balanceFactor)>1:
             if self.right==None:
                 high="left"
@@ -40,11 +40,12 @@ class AVLnode:
             if self.right==None:
                 self.balanceFactor+=1
                 self.right=AVLnode(newValue)
+                if self.balanceFactor==0:
+                    return 0
                 return 1
             change=self.right.addNode(newValue)
-            if change!=0:
-                change=1
-            self.balanceFactor+=change
+            self.balanceFactor+=abs(change)
+            change=0 if self.balanceFactor==0 else change
             if abs(self.balanceFactor)>1:
                 self.rebalance()
                 return 0
@@ -52,13 +53,46 @@ class AVLnode:
         if self.left==None:
             self.balanceFactor-=1
             self.left=AVLnode(newValue)
+            if self.balanceFactor==0:
+                return 0
             return -1
         change=self.left.addNode(newValue)
-        if change!=0:
-            change=-1
-        self.balanceFactor+=change
+        self.balanceFactor-=abs(change)
+        change=0 if self.balanceFactor==0 else change
         if abs(self.balanceFactor)>1:
             self.rebalance()
+            return 0
+        return change
+    
+    def addNodeUnbalanced(self, newValue: int):
+        if self.value == None:
+            self.value = newValue
+            return 1
+        if newValue>self.value:
+            if self.right==None:
+                self.balanceFactor+=1
+                self.right=AVLnode(newValue)
+                if self.balanceFactor==0:
+                    return 0
+                return 1
+            change=self.right.addNodeUnbalanced(newValue)
+            self.balanceFactor+=abs(change)
+            change=0 if self.balanceFactor==0 else change
+            if abs(self.balanceFactor)>1:
+                #self.rebalance()
+                return 0
+            return change
+        if self.left==None:
+            self.balanceFactor-=1
+            self.left=AVLnode(newValue)
+            if self.balanceFactor==0:
+                return 0
+            return -1
+        change=self.left.addNodeUnbalanced(newValue)
+        self.balanceFactor-=abs(change)
+        change=0 if self.balanceFactor==0 else change
+        if abs(self.balanceFactor)>1:
+            #self.rebalance()
             return 0
         return change
     
@@ -206,9 +240,9 @@ class AVLnode:
             newLeft=AVLnode(self.value)
             newLeft.left=self.left
             newLeft.right=self.right.left
-            newLeft.balanceFactor=self.balanceFactor-1
+            newLeft.balanceFactor=0
             self.value=self.right.value
-            self.balanceFactor-=2
+            self.balanceFactor=0
             self.left=newLeft
             self.right=self.right.right
             return 0
@@ -227,9 +261,9 @@ class AVLnode:
             newRight=AVLnode(self.value)
             newRight.right=self.right
             newRight.left=self.left.right
-            newRight.balanceFactor=self.balanceFactor+1
+            newRight.balanceFactor=0
             self.value=self.left.value
-            self.balanceFactor+=2
+            self.balanceFactor=0
             self.left=self.left.left
             self.right=newRight
             return 0
@@ -255,7 +289,7 @@ class AVLnode:
         if len(list)==0:
             return
         median = int(len(list)/2)
-        self.addNode(list[median])
+        self.addNodeUnbalanced(list[median])
         if median>0:
             self.AVLconstruct(list[:median])
         if median<len(list):
