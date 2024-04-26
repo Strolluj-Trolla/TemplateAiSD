@@ -63,14 +63,13 @@ class BSTnode:
         res+=str(self.value)
         return res
     
-    #dopracować
     def TiKZgenerate(self) -> str:
-        res=f"node {self.value}"
+        res="node {"+str(self.value)+"}"
         if self.left==None and self.right==None:
             return res
         left=f"child {self.left.TiKZgenerate()[0:]}" if self.left!=None else "child[missing]"
         right=f"child {self.right.TiKZgenerate()[0:]}" if self.right!=None else "child[missing]"
-        res+=" \{"+left+"} \{"+right+"}"
+        res+=" {"+left+"} {"+right+"}"
         return "\\"+res
     
     def delete(self, value) -> int:

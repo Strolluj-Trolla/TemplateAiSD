@@ -2,6 +2,13 @@ from trees import BST
 from trees import AVL
 import sys
 
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 
 """
 To run this file issue this command:
@@ -22,7 +29,11 @@ if sys.argv[2] == "BST":
     if __name__ == "__main__":
         userInput = ""
         print("Give nodes to add (numbers separated by space)")
-        node = list(map(int, input("node> ").split()))
+        node = input("node> ").split()
+        for i in range(len(node)-1,-1,-1):
+            if not is_number(node[i]):
+                node.pop(i)
+        node = list(map(int, node))
         print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
         tree = BST.BSTnode(node[0])
         for i in node[1:]:
@@ -41,7 +52,7 @@ if sys.argv[2] == "BST":
                 print("Print - Print the tree using Pre-order, In-order, Post-order")
                 print("Remove - Remove elements of a tree")
                 print("Delete - Delete whole tree")
-                # print("Export - Export the tree to tickzpicture")
+                print("Export - Export the tree to tickzpicture")
                 print("Rebalance - Rebalance the tree")
                 print("Max - Find the maximal node")
                 print("Min - Find the minimal node")
@@ -55,7 +66,11 @@ if sys.argv[2] == "BST":
             
             if userInput == "Remove":
                 print("Give nodes to remove (numbers separated by space)")
-                node = list(map(int, input("node> ").split()))
+                node = input("node> ").split()
+                for i in range(len(node)-1,-1,-1):
+                    if not is_number(node[i]):
+                        node.pop(i)
+                node = list(map(int, node))
                 for i in node:
                     tree.delete(i)
 
@@ -71,9 +86,16 @@ if sys.argv[2] == "BST":
             if userInput == "Min":
                 print("Min node: "+str(tree.minNode()))
 
+            if userInput=="Export":
+                print(tree.TiKZgenerate())
+
             if userInput == "Add":
                 print("Give nodes to add (numbers separated by space)")
-                node = list(map(int, input("node> ").split()))
+                node = input("node> ").split()
+                for i in range(len(node)-1,-1,-1):
+                    if not is_number(node[i]):
+                        node.pop(i)
+                node = list(map(int, node))
                 print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
                 for i in node:
                     tree.addNode(i) 
@@ -83,7 +105,11 @@ if sys.argv[2] == "AVL":
     if __name__ == "__main__":
         userInput = ""
         print("Give nodes to add (numbers separated by space)")
-        node = list(map(int, input("node> ").split()))
+        node = input("node> ").split()
+        for i in range(len(node)-1,-1,-1):
+            if not is_number(node[i]):
+                node.pop(i)
+        node = list(map(int, node))
         print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
         tree = AVL.AVLnode(node[0])
         for i in node[1:]:
@@ -102,7 +128,7 @@ if sys.argv[2] == "AVL":
                 print("Print - Print the tree using Pre-order, In-order, Post-order")
                 print("Remove - Remove elements of a tree")
                 print("Delete - Delete whole tree")
-                # print("Export - Export the tree to tickzpicture")
+                print("Export - Export the tree to tickzpicture")
                 # print("Rebalance - Rebalance the tree")
                 print("Max - Find the maximal node")
                 print("Min - Find the minimal node")
@@ -116,7 +142,11 @@ if sys.argv[2] == "AVL":
             
             if userInput == "Remove":
                 print("Give nodes to remove (numbers separated by space)")
-                node = list(map(int, input("node> ").split()))
+                node = input("node> ").split()
+                for i in range(len(node)-1,-1,-1):
+                    if not is_number(node[i]):
+                        node.pop(i)
+                node = list(map(int, node))
                 for i in node:
                     tree.delete(i)
 
@@ -132,9 +162,16 @@ if sys.argv[2] == "AVL":
             if userInput == "Min":
                 print("Min node: "+str(tree.minNode()))
 
+            if userInput=="Export":
+                print(tree.TiKZgenerate())
+
             if userInput == "Add":
                 print("Give nodes to add (numbers separated by space)")
-                node = list(map(int, input("node> ").split()))
+                node = input("node> ").split()
+                for i in range(len(node)-1,-1,-1):
+                    if not is_number(node[i]):
+                        node.pop(i)
+                node = list(map(int, node))
                 print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
                 for i in node:
                     tree.addNode(i)
