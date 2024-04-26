@@ -111,9 +111,8 @@ if sys.argv[2] == "AVL":
                 node.pop(i)
         node = list(map(int, node))
         print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
-        tree = AVL.AVLnode(node[0])
-        for i in node[1:]:
-            tree.addNode(i)
+        tree=AVL.AVLnode(None)
+        tree.AVLconstruct(node)
         print("Type 'Help' for more informations.")
         while True:
 
@@ -175,4 +174,3 @@ if sys.argv[2] == "AVL":
                 print("insert> "+str(node).replace(",","").replace("[","").replace("]",""))
                 for i in node:
                     tree.addNode(i)
-        

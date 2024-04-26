@@ -127,9 +127,9 @@ class AVLnode:
         res="node {"+str(self.value)+"}"
         if self.left==None and self.right==None:
             return res
-        left=f"child {self.left.TiKZgenerate()[0:]}" if self.left!=None else "child[missing]"
-        right=f"child {self.right.TiKZgenerate()[0:]}" if self.right!=None else "child[missing]"
-        res+=" {"+left+"} {"+right+"}"
+        left="child {"+self.left.TiKZgenerate()[0:]+"}" if self.left!=None else "child[missing]"
+        right="child {"+self.right.TiKZgenerate()[0:]+"}" if self.right!=None else "child[missing]"
+        res+=" "+left+" "+right
         return "\\"+res
     
     def minNode(self) -> int:
@@ -295,6 +295,7 @@ class AVLnode:
         #        added+=1
         #    loops+=1
         #return
+        list.sort()
         if len(list)==0:
             return
         median = int(len(list)/2)
