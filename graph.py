@@ -37,6 +37,9 @@ class graph():
     def dataProvided(self, data):
         self.data=data
         return
+    
+    def __str__(self):
+        return "graf"
 
 graf=graph("table")
 graf.generate(5,50)
