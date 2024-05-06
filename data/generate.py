@@ -5,7 +5,7 @@ def generate_increasing_array(size):
     return np.arange(size)
 
 # Set the sizes for the arrays
-sizes = [100*x for x in range(1, 101)]
+sizes = [2**x for x in range(1, 21)]
 
 for size in sizes:
     # Generate arrays

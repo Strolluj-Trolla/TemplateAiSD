@@ -8,7 +8,7 @@ benchmark() {
     runcurrent=$runpython
 
     echo "Benchmarking with input $input_file"
-    ${runcurrent} --tree BST < $input_file 2>&1 >/dev/null
+    #${runcurrent} --tree BST < $input_file 2>&1 >/dev/null
     ${runcurrent} --tree AVL < $input_file 2>&1 >/dev/null
     echo "------------------------"
 }
@@ -22,6 +22,12 @@ python3 ../bench_reset.py
 # Run the benchmark for each input file and size
 for input_type in "${input_files[@]}"; do
     for input_file in "benchmark/${input_type}_"*".txt"; do
+        benchmark $input_file
+        benchmark $input_file
+        benchmark $input_file
+        benchmark $input_file
+        benchmark $input_file
+        benchmark $input_file
         benchmark $input_file
         benchmark $input_file
         benchmark $input_file
