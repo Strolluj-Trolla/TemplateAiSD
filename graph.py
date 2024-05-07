@@ -12,7 +12,10 @@ class graph():
             for j in range(i+1, nodeCount):
                 edges.append([i,j])
         random.shuffle(edges)
-        return edges[:edgeCount]
+        edges=edges[:edgeCount]
+        edges.sort()
+        return edges
+
 
 
     def generate(self, nodeCount: int, saturation: int):
@@ -39,8 +42,29 @@ class graph():
         return
     
     def __str__(self):
-        return "graf"
+        res=""
+        if self.type=="matrix":
+            nodeCount=len(self.data)
+            res+=" |"
+            for i in range(nodeCount):
+                res+=str(i)+" "
+            res+="\n_+"
+            for i in range(nodeCount):
+                res+="__"
+            res+="\n"
+            for i, row in enumerate(self.data):
+                res+=str(i)+"|"+str(row).replace("[","").replace("]","").replace(",","")+"\n"
+        elif self.type=="list":
+            for i, node in enumerate(self.data):
+                res+=str(i)+" | "
+                for successor in node:
+                    res+=str(successor)+", "
+                res+="\n"
+        elif self.type=="table":
+            for edge in self.data:
+                res+=str(edge).replace("[","").replace("]","").replace(", ","---")+"\n"
+        return res
 
-graf=graph("table")
+graf=graph("matrix")
 graf.generate(5,50)
-print("smth")
+print(graf)
