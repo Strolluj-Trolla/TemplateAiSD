@@ -1,4 +1,5 @@
 import random
+import copy
 
 class graph():
      
@@ -26,6 +27,7 @@ class graph():
                     temp.append(0)
                 self.data.append(temp)
             for edge in self._randomEdges(nodeCount, int((nodeCount*(nodeCount-1)/2)*(saturation/100))):
+                self.data[edge[1]][edge[0]]=-1
                 self.data[edge[0]][edge[1]]=1
         elif self.type=="list":
             for i in range(nodeCount):
@@ -115,12 +117,92 @@ class graph():
                         queue.append(edge[1])
             visited.append(queue.pop(currentIndex))
         return [x+1 for x in visited]
+    
+    def Kahn(self):
+        tmp = copy.deepcopy(self.data)
+        L = []
+        if self.type == "matrix":
+            in_deg = [0]*len(tmp)
+            for i in range(len(tmp)):
+                for j in tmp[i]:
+                    if j == -1:
+                        in_deg[i]+=1
+
+            queue = []
+            for index, i in enumerate(in_deg):
+                if i == 0:
+                    queue.append(index)
+            while queue != []:
+                for index, i in enumerate(queue):
+                    L.append(i+1)
+                    for j in range(len(tmp[i])):
+                        if tmp[i][j]==1:
+                            in_deg[j] -= 1
+                            if in_deg[j] == 0:
+                                queue.append(j)
+                for x in range(len(L)):
+                    queue.pop(0)
+            if max(in_deg)>0:
+                print("Cycle detected")
+            else:
+                print(L)
+
+        if self.type == "list":
+            in_deg = [0]*len(tmp)
+            for i in tmp:
+                for j in i:
+                    in_deg[j]+=1
+            queue = []
+            for index, i in enumerate(in_deg):
+                if i == 0:
+                    queue.append(index)
+            while queue != []:
+                for index, i in enumerate(queue):
+                    L.append(i+1)
+                    for j in tmp[i]:
+                        in_deg[j] -= 1
+                        if in_deg[j] == 0:
+                            queue.append(j)
+                for x in range(len(L)):
+                    queue.pop(0)
+            if max(in_deg)>0:
+                print("Cycle detected")
+            else:
+                print(L)
+
+        if self.type == "table":
+            in_deg = [0]*len(tmp)
+            for i in tmp:
+                in_deg[i[1]] += 1
+            queue = []
+            for index, i in enumerate(in_deg):
+                if i == 0:
+                    queue.append(index)
+            while queue != []:
+                for index, i in enumerate(queue):
+                    L.append(i+1)
+                    for j in tmp:
+                        if j[0]==i:
+                            in_deg[j[1]] -=1
+                            if in_deg[j[1]] == 0:
+                                queue.append(j[1])
+                for x in range(len(L)):
+                    queue.pop(0)
+            if max(in_deg)>0:
+                print("Cycle detected")
+            else:
+                print(L)
 
 
-graf=graph("matrix")
-graf.generate(5,50)
+graf=graph("table")
+# graf.generate(5,50)
+# graf.dataProvided([[[0, 1], [1, 2], [1, 4], [2, 3], [3, 4]]])
+
+# graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
+print(graf.data)
 print(graf)
-print(str(graf.edgeExists(2,5)))
+graf.Kahn()
+# print(str(graf.edgeExists(2,5)))
 
-print(str(graf.BFS()).replace("[","").replace("]", "").replace(",", ""))
-print(str(graf.DFS()).replace("[","").replace("]", "").replace(",", ""))
+# print(str(graf.BFS()).replace("[","").replace("]", "").replace(",", ""))
+# print(str(graf.DFS()).replace("[","").replace("]", "").replace(",", ""))
