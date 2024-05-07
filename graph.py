@@ -47,24 +47,40 @@ class graph():
             nodeCount=len(self.data)
             res+=" |"
             for i in range(nodeCount):
-                res+=str(i)+" "
+                res+=str(i+1)+" "
             res+="\n_+"
             for i in range(nodeCount):
                 res+="__"
             res+="\n"
             for i, row in enumerate(self.data):
-                res+=str(i)+"|"+str(row).replace("[","").replace("]","").replace(",","")+"\n"
+                res+=str(i+1)+"|"+str(row).replace("[","").replace("]","").replace(",","")+"\n"
         elif self.type=="list":
             for i, node in enumerate(self.data):
-                res+=str(i)+" | "
+                res+=str(i+1)+" | "
                 for successor in node:
-                    res+=str(successor)+", "
+                    res+=str(successor+1)+", "
                 res+="\n"
         elif self.type=="table":
             for edge in self.data:
-                res+=str(edge).replace("[","").replace("]","").replace(", ","---")+"\n"
+                res+=str([x+1 for x in edge]).replace("[","").replace("]","").replace(", ","---")+"\n"
         return res
+    
+    def edgeExists(self, node1: int, node2: int) -> bool:
+        if node2<node1:
+            node1, node2= node2, node1
+        node1-=1
+        node2-=1
+        if self.type=="matrix":
+            return self.data[node1][node2]==1
+        elif self.type=="list":
+            return (node2 in self.data[node1])
+        else:
+            return ([node1, node2] in self.data)
+        
+    def BFS(self):
+        return "lmao"
 
-graf=graph("matrix")
+graf=graph("table")
 graf.generate(5,50)
 print(graf)
+print(str(graf.edgeExists(2,5)))
