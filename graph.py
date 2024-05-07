@@ -78,9 +78,49 @@ class graph():
             return ([node1, node2] in self.data)
         
     def BFS(self):
-        return "lmao"
+        visited=[]
+        queue=[0]
+        while(len(queue)>0):
+            if self.type=="matrix":
+                for successor, check in enumerate(self.data[queue[0]]):
+                    if check==1 and not successor in visited and not successor in queue:
+                        queue.append(successor)
+            if self.type=="list":
+                for successor in self.data[queue[0]]:
+                    if not successor in visited and not successor in queue:
+                        queue.append(successor)
+            if self.type=="table":
+                for edge in self.data:
+                    if edge[0]==queue[0] and not edge[1] in visited and not edge[1] in queue:
+                        queue.append(edge[1])
+            visited.append(queue.pop(0))
+        return [x+1 for x in visited]
+    
+    def DFS(self):
+        visited=[]
+        queue=[0]
+        while(len(queue)>0):
+            currentIndex=len(queue)-1
+            if self.type=="matrix":
+                for successor, check in enumerate(self.data[queue[currentIndex]]):
+                    if check==1 and not successor in visited:
+                        queue.append(successor)
+            if self.type=="list":
+                for successor in self.data[queue[currentIndex]]:
+                    if not successor in visited:
+                        queue.append(successor)
+            if self.type=="table":
+                for edge in self.data:
+                    if edge[0]==queue[currentIndex] and not edge[1] in visited:
+                        queue.append(edge[1])
+            visited.append(queue.pop(currentIndex))
+        return [x+1 for x in visited]
 
-graf=graph("table")
+
+graf=graph("matrix")
 graf.generate(5,50)
 print(graf)
 print(str(graf.edgeExists(2,5)))
+
+print(str(graf.BFS()).replace("[","").replace("]", "").replace(",", ""))
+print(str(graf.DFS()).replace("[","").replace("]", "").replace(",", ""))
