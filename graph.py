@@ -68,12 +68,12 @@ class graph():
         return res
     
     def edgeExists(self, node1: int, node2: int) -> bool:
-        if node2<node1:
-            node1, node2= node2, node1
+        #if node2<node1:
+        #    node1, node2= node2, node1
         node1-=1
         node2-=1
         if self.type=="matrix":
-            return self.data[node1][node2]==1
+            return (self.data[node1][node2]==1 or self.data[node1][node2]==-1)
         elif self.type=="list":
             return (node2 in self.data[node1])
         else:
