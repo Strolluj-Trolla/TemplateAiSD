@@ -37,7 +37,7 @@ class graph():
         elif self.type=="table":
             for edge in self._randomEdges(nodeCount, int((nodeCount*(nodeCount-1)/2)*(saturation/100))):
                 self.data.append(edge)
-        return
+        return nodeCount
     
     def dataProvided(self, data):
         self.data=data
@@ -119,6 +119,7 @@ class graph():
         return [x+1 for x in visited]
     
     def Kahn(self):
+        global nodect
         tmp = copy.deepcopy(self.data)
         L = []
         if self.type == "matrix":
@@ -171,7 +172,7 @@ class graph():
                 print(L)
 
         if self.type == "table":
-            in_deg = [0]*len(tmp)
+            in_deg = [0]*nodect
             for i in tmp:
                 in_deg[i[1]] += 1
             queue = []
@@ -194,14 +195,108 @@ class graph():
                 print(L)
 
 
+
+    def Tarjan(self):
+        global nodect
+        tmp = copy.deepcopy(self.data)
+        x = 0
+        L = []
+        unmarked = []
+        temporary = [0]*nodect
+        if self.type == "matrix":
+            def visitm(n):
+                if pernament[n]==1:
+                    return
+                if temporary[n]==1:
+                    print("cycle detected")
+                temporary[n] = 1
+
+                for index, i in enumerate(tmp[n]):
+                    if i == 1:
+                        visitm(index)
+                pernament[n] = 1
+                L.append(n+1)
+                return
+
+
+
+            for i in range(nodect):
+                unmarked.append(i)
+            pernament = [-1]*nodect
+
+            while min(pernament)==-1:
+                visitm(x)
+                x+=1
+            L.reverse()
+            print(L)
+        
+        
+        if self.type == "list":
+
+            def visitl(n):
+                if pernament[n]==1:
+                    return
+                if temporary[n]==1:
+                    print("cycle detected")
+                temporary[n] = 1
+
+                for i in tmp[n]:
+                    visitl(i)
+                pernament[n] = 1
+                L.append(n+1)
+                return
+
+
+            for i in range(nodect):
+                unmarked.append(i)
+            pernament = [-1]*nodect
+
+            while min(pernament)==-1:
+                visitl(x)
+                x+=1
+            L.reverse()
+            print(L)
+        
+        if self.type == "table":
+
+            def visitt(n):
+                if pernament[n]==1:
+                    return
+                if temporary[n]==1:
+                    print("cycle detected")
+                temporary[n] = 1
+
+                for i in tmp:
+                    if i[0]==n:
+                        visitt(i[1])
+                pernament[n] = 1
+                L.append(n+1)
+                return
+
+
+            for i in range(nodect):
+                unmarked.append(i)
+            pernament = [-1]*nodect
+
+            while min(pernament)==-1:
+                visitt(x)
+                x+=1
+            L.reverse()
+            print(L)
+
 graf=graph("table")
-# graf.generate(5,50)
-# graf.dataProvided([[[0, 1], [1, 2], [1, 4], [2, 3], [3, 4]]])
+nodect = graf.generate(5,50)
+# graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
+# graf.dataProvided([[0,0,1,0],[0,0,-1,-1],[-1,1,0,1],[0,1,-1,0]])
+print(graf)
+print(graf.data)
+graf.Tarjan()
+
 
 # graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
-print(graf.data)
-print(graf)
-graf.Kahn()
+# print(graf.data)
+
+# graf.Kahn()
 # print(str(graf.edgeExists(2,5)))
 
 # print(str(graf.BFS()).replace("[","").replace("]", "").replace(",", ""))
