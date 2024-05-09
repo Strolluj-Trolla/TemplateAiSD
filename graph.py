@@ -134,8 +134,8 @@ class graph():
             visited.append(queue.pop(currentIndex))
         return [x+1 for x in visited]
     
-    def Kahn(self):
-        global nodect
+    def Kahn(self, nodect: int):
+        #global nodect
         tmp = copy.deepcopy(self.data)
         L = []
         if self.type == "matrix":
@@ -162,7 +162,7 @@ class graph():
             if max(in_deg)>0:
                 print("Cycle detected")
             else:
-                print(L)
+                print(str(L).replace("[", "").replace("]", ""))
 
         if self.type == "list":
             in_deg = [0]*len(tmp)
@@ -185,7 +185,7 @@ class graph():
             if max(in_deg)>0:
                 print("Cycle detected")
             else:
-                print(L)
+                print(str(L).replace("[", "").replace("]", ""))
 
         if self.type == "table":
             in_deg = [0]*nodect
@@ -208,12 +208,12 @@ class graph():
             if max(in_deg)>0:
                 print("Cycle detected")
             else:
-                print(L)
+                print(str(L).replace("[", "").replace("]", ""))
 
 
 
-    def Tarjan(self):
-        global nodect
+    def Tarjan(self, nodect: int):
+        #global nodect
         tmp = copy.deepcopy(self.data)
         x = 0
         L = []
@@ -244,7 +244,7 @@ class graph():
                 visitm(x)
                 x+=1
             L.reverse()
-            print(L)
+            print(str(L).replace("[", "").replace("]", ""))
         
         
         if self.type == "list":
@@ -271,7 +271,7 @@ class graph():
                 visitl(x)
                 x+=1
             L.reverse()
-            print(L)
+            print(str(L).replace("[", "").replace("]", ""))
         
         if self.type == "table":
 
@@ -298,7 +298,7 @@ class graph():
                 visitt(x)
                 x+=1
             L.reverse()
-            print(L)
+            print(str(L).replace("[", "").replace("]", ""))
 
 # graf=graph("table")
 # nodect = graf.generate(5,50)

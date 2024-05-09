@@ -105,8 +105,15 @@ if __name__ == "__main__":
             print(str(graf))
         
         if response=="Breadth-first search":
-            print(str(graf.BFS()).replace("[", "").replace("]", "").replace(",", ""))
+            print(str(graf.BFS()).replace("[", "").replace("]", ""))
 
         if response=="Depth-first search":
-            print(str(graf.DFS()).replace("[", "").replace("]", "").replace(",", ""))
+            print(str(graf.DFS()).replace("[", "").replace("]", ""))
     
+        if response=="Kahn":
+            graf.Kahn(nodeCount)
+
+        if response=="Tarjan":
+            graf.Tarjan(nodeCount)
+
+sys.exit(0)
