@@ -40,7 +40,22 @@ class graph():
         return nodeCount
     
     def dataProvided(self, data):
-        self.data=data
+        if self.type=="matrix":
+            for i in range(len(data)):
+                temp=[]
+                for j in range(len(data)):
+                    temp.append(0)
+                self.data.append(temp)
+            for i, node1 in enumerate(data):
+                for node2 in node1:
+                    self.data[i][node2]=1
+                    self.data[node2][i]=-1
+        if self.type=="list":
+            self.data=data
+        if self.type=="table":
+            for i, node1 in enumerate(data):
+                for node2 in node1:
+                    self.data.append([i, node2])
         return
     
     def __str__(self):
@@ -70,10 +85,11 @@ class graph():
     def edgeExists(self, node1: int, node2: int) -> bool:
         #if node2<node1:
         #    node1, node2= node2, node1
-        node1-=1
-        node2-=1
+        # or self.data[node1][node2]==-1
+        #node1-=1
+        #node2-=1
         if self.type=="matrix":
-            return (self.data[node1][node2]==1 or self.data[node1][node2]==-1)
+            return (self.data[node1][node2]==1)
         elif self.type=="list":
             return (node2 in self.data[node1])
         else:
@@ -284,13 +300,13 @@ class graph():
             L.reverse()
             print(L)
 
-graf=graph("table")
-nodect = graf.generate(5,50)
-# graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
-# graf.dataProvided([[0,0,1,0],[0,0,-1,-1],[-1,1,0,1],[0,1,-1,0]])
-print(graf)
-print(graf.data)
-graf.Tarjan()
+# graf=graph("table")
+# nodect = graf.generate(5,50)
+# # graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
+# # graf.dataProvided([[0,0,1,0],[0,0,-1,-1],[-1,1,0,1],[0,1,-1,0]])
+# print(graf)
+# print(graf.data)
+# graf.Tarjan()
 
 
 # graf.dataProvided([[1,9],[2, 6],[3],[5],[1, 6],[8],[7,8],[3,5,8],[],[4,5]])
