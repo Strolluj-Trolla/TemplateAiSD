@@ -1,5 +1,6 @@
-import  graph
+import graph
 import sys
+from time import time
 
 def is_number(s):
     try:
@@ -28,6 +29,8 @@ if __name__ == "__main__":
     if len(sys.argv)<2 or not sys.argv[1] in ["--generate", "--user-provided"]:
         print("Usage: main.py --generate or main.py --user-provided")
         sys.exit(1)
+
+    sys.setrecursionlimit(10**7)
     
     #create graph
     print("Graph types: matrix, list, table")
@@ -57,6 +60,7 @@ if __name__ == "__main__":
             sys.exit(2)
         graf.generate(nodeCount, sat)
     else:
+        sat=0
         print("Input successors for the specified nodes:")
         data=[]
         for i in range(response):
@@ -99,7 +103,11 @@ if __name__ == "__main__":
             if end<0 or end>=nodeCount:
                 print("Node number out of range")
                 sys.exit(2)
+            timeElapsed=time()
             print(str(graf.edgeExists(start, end)))
+            timeElapsed=time()-timeElapsed
+            with open("./find_edge.csv", "a") as res:
+                res.write(graf.type+", "+str(nodeCount)+", "+str(sat)+", "+str(timeElapsed)+"\n")
 
         if response=="Print":
             print(str(graf))
@@ -111,9 +119,17 @@ if __name__ == "__main__":
             print(str(graf.DFS()).replace("[", "").replace("]", ""))
     
         if response=="Kahn":
+            timeElapsed=time()
             graf.Kahn(nodeCount)
+            timeElapsed=time()-timeElapsed
+            with open("./sort_Kahn.csv", "a") as res:
+                res.write(graf.type+", "+str(nodeCount)+", "+str(sat)+", "+str(timeElapsed)+"\n")
 
         if response=="Tarjan":
+            timeElapsed=time()
             graf.Tarjan(nodeCount)
+            timeElapsed=time()-timeElapsed
+            with open("./sort_Tarjan.csv", "a") as res:
+                res.write(graf.type+", "+str(nodeCount)+", "+str(sat)+", "+str(timeElapsed)+"\n")
 
 sys.exit(0)

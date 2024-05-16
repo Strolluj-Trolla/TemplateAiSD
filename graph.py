@@ -211,7 +211,7 @@ class graph():
                 print(str(L).replace("[", "").replace("]", ""))
 
 
-
+    #nie ruszać
     def Tarjan(self, nodect: int):
         #global nodect
         tmp = copy.deepcopy(self.data)
