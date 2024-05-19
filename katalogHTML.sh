@@ -18,6 +18,7 @@ then
 else
     if [ $1 = "-s" ] || [ $1 = "-r" ] || [ $1 = "-u" ]
     then
+        sort=$1
         if [ -d $2 ]
         then
             graphics=(".png", ".gif", ".jpg", ".svg")
@@ -56,18 +57,16 @@ else
                 done
             done
 
-            if [ $3 = "-c" ]
+            customExts=()
+            if [ $# -gt 2 ] && [ $3 = "-c" ]
             then
                 directory=$2
                 i=4
                 j=$#
                 shift 3
-                customExts=()
                 while [ $i -le $j ] 
                 do
-                    echo "Ext: $1"
                     customExts+=($1)
-                    
                     i=$((i + 1))
                     shift 1
                 done
@@ -82,6 +81,59 @@ else
                     done
                 done
             fi
+
+        if [ $sort = "-u" ]
+        then
+            cat tmpimg.txt | tail -n +2 | cat > img.txt
+            cat tmpmusic.txt | tail -n +2 | cat > music.txt
+            cat tmpdoc.txt | tail -n +2 | cat > doc.txt
+            rm tmpimg.txt
+            rm tmpmusic.txt
+            rm tmpdoc.txt
+            for ext in ${customExts[@]};do
+                cat "tmp${ext}.txt" | tail -n +2 | cat > "${ext}.txt"
+                rm "tmp${ext}.txt"
+            done
+        fi
+
+        if [ $sort = "-s" ]
+        then
+            cat tmpimg.txt | tail -n +2 | sort -f -k 1 | cat > img.txt
+            cat tmpmusic.txt | tail -n +2 | sort -f -k 1 | cat > music.txt
+            cat tmpdoc.txt | tail -n +2 | sort -f -k 1 | cat > doc.txt
+            rm tmpimg.txt
+            rm tmpmusic.txt
+            rm tmpdoc.txt
+            for ext in ${customExts[@]};do
+                cat "tmp${ext}.txt" | tail -n +2 | sort -f -k 1 | cat > "${ext}.txt"
+                rm "tmp${ext}.txt"
+            done
+        fi
+
+        if [ $sort = "-r" ]
+        then
+            cat tmpimg.txt | tail -n +2 | sort -f -r -k 1 | cat > img.txt
+            cat tmpmusic.txt | tail -n +2 | sort -f -r -k 1 | cat > music.txt
+            cat tmpdoc.txt | tail -n +2 | sort -f -r -k 1 | cat > doc.txt
+            rm tmpimg.txt
+            rm tmpmusic.txt
+            rm tmpdoc.txt
+            for ext in ${customExts[@]};do
+                cat "tmp${ext}.txt" | tail -n +2 | sort -f -r -k 1 | cat > "${ext}.txt"
+                rm "tmp${ext}.txt"
+            done
+        fi
+
+
+        #tu zrób wypisywanie do hatemenela, najlepiej samo echo (będzie się można pochwalić że wypisuje do STDouta mmmmmm przekierowanie)
+
+
+        rm img.txt
+        rm music.txt
+        rm doc.txt
+        for ext in ${customExts[@]};do
+            rm "${ext}.txt"
+        done
 
         else
             echo "Aby wywołać pomoc, uruchom używając składni katalogHTML.sh --help lub katalogHTML.sh -h"
