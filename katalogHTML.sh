@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 = "--help" ] || [ $1 = "-h" ]
+if [ $# -eq 0 ] || [ $1 = "--help" ] || [ $1 = "-h" ];
 then
     echo "katalogHTML.sh --help, katalogHTML.sh -h : Wywołanie pomocy"
     echo "katalogHTML.sh <-s|-r|-u> KATALOG [-c LISTA ROZSZERZEŃ]"
@@ -16,10 +16,10 @@ then
     echo "  -c - utwórz dodatkową sekcję zawierającą pliki o podanych rozszerzeniach;"
     echo "  LISTA ROZSZERZEŃ - lista dodatkowych rozszerzeń, które mają zostać przetworzone."
 else
-    if [ $1 = "-s" ] || [ $1 = "-r" ] || [ $1 = "-u" ]
+    if [ $1 = "-s" ] || [ $1 = "-r" ] || [ $1 = "-u" ];
     then
         sort=$1
-        if [ -d $2 ]
+        if [ -d $2 ];
         then
             graphics=(".png", ".gif", ".jpg", ".svg")
             music=(".mp3", ".ogg", ".flac")
@@ -58,13 +58,13 @@ else
             done
 
             customExts=()
-            if [ $# -gt 2 ] && [ $3 = "-c" ]
+            if [ $# -gt 2 ] && [ $3 = "-c" ];
             then
                 directory=$2
                 i=4
                 j=$#
                 shift 3
-                while [ $i -le $j ] 
+                while [ $i -le $j ];
                 do
                     customExts+=($1)
                     i=$((i + 1))
@@ -82,7 +82,7 @@ else
                 done
             fi
 
-        if [ $sort = "-u" ]
+        if [ $sort = "-u" ];
         then
             cat tmpimg.txt | tail -n +2 | cat > img.txt
             cat tmpmusic.txt | tail -n +2 | cat > music.txt
@@ -96,7 +96,7 @@ else
             done
         fi
 
-        if [ $sort = "-s" ]
+        if [ $sort = "-s" ];
         then
             cat tmpimg.txt | tail -n +2 | sort -f -k 1 | cat > img.txt
             cat tmpmusic.txt | tail -n +2 | sort -f -k 1 | cat > music.txt
@@ -110,7 +110,7 @@ else
             done
         fi
 
-        if [ $sort = "-r" ]
+        if [ $sort = "-r" ];
         then
             cat tmpimg.txt | tail -n +2 | sort -f -r -k 1 | cat > img.txt
             cat tmpmusic.txt | tail -n +2 | sort -f -r -k 1 | cat > music.txt
