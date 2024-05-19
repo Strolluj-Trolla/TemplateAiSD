@@ -23,21 +23,36 @@ else
             graphics=(".png", ".gif", ".jpg", ".svg")
             music=(".mp3", ".ogg", ".flac")
             documents=(".pdf", ".odt", ".txt", ".docx", ".csv")
+            echo -e "Name\tPath\tLast modified" > tmpimg.txt
             for graphic_ext in ${graphics[@]}; do
                 for file in $(find ${2} -name "*${graphic_ext}"); do
-                    echo $file
+                    for x in $(echo ${file} | tr "/" " "); do
+                        name=$x
+                    done
+                    lastModified=$(ls -l "${file}" | tr -s " " | cut -d " " -f 6-8 | cat)
+                    echo -e "${name}\t${file}\t${lastModified}" >> tmpimg.txt
                 done
             done
 
+            echo -e "Name\tPath\tLast modified" > tmpmusic.txt
             for music_ext in ${music[@]}; do
                 for file in $(find ${2} -name "*${music_ext}"); do
-                    echo $file
+                    for x in $(echo ${file} | tr "/" " "); do
+                        name=$x
+                    done
+                    lastModified=$(ls -l "${file}" | tr -s " " | cut -d " " -f 6-8 | cat)
+                    echo -e "${name}\t${file}\t${lastModified}" >> tmpmusic.txt
                 done
             done
 
+            echo -e "Name\tPath\tLast modified" > tmpdoc.txt
             for document_ext in ${documents[@]}; do
                 for file in $(find ${2} -name "*${document_ext}"); do
-                    echo $file
+                    for x in $(echo ${file} | tr "/" " "); do
+                        name=$x
+                    done
+                    lastModified=$(ls -l "${file}" | tr -s " " | cut -d " " -f 6-8 | cat)
+                    echo -e "${name}\t${file}\t${lastModified}" >> tmpdoc.txt
                 done
             done
 
@@ -47,15 +62,24 @@ else
                 i=4
                 j=$#
                 shift 3
+                customExts=()
                 while [ $i -le $j ] 
                 do
                     echo "Ext: $1"
-                    ext=$1
-                    for file in $(find ${directory} -name "*${ext}"); do
-                        echo $file
-                    done
+                    customExts+=($1)
+                    
                     i=$((i + 1))
                     shift 1
+                done
+                for ext in ${customExts[@]};do
+                    echo -e "Name\tPath\tLast modified" > "tmp${ext}.txt"
+                    for file in $(find ${directory} -name "*${ext}"); do
+                        for x in $(echo ${file} | tr "/" " "); do
+                            name=$x
+                        done
+                        lastModified=$(ls -l "${file}" | tr -s " " | cut -d " " -f 6-8 | cat)
+                        echo -e "${name}\t${file}\t${lastModified}" >> "tmp${ext}.txt"
+                    done
                 done
             fi
 
