@@ -22,7 +22,7 @@ else
         if [ -d $2 ];
         then
             graphics=(".png", ".gif", ".jpg", ".svg")
-            music=(".mp3", ".ogg", ".flac")
+            music=(".mp3", ".ogg", ".flac", ".wav")
             documents=(".pdf", ".odt", ".txt", ".docx", ".csv")
             echo -e "Name\tPath\tLast modified" > tmpimg.txt
             for graphic_ext in ${graphics[@]}; do
@@ -123,11 +123,52 @@ else
                 rm "tmp${ext}.txt"
             done
         fi
-
-
+        echo "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Katalog HTML</title><style>header {text-align: center;}.block {width: 20%;border-radius: 20px;background-color: bisque;text-align: center;float: left;}</style></head><body><header><h1>Katalog HTML</h1></header><main>"
+        #------
         #tu zrób wypisywanie do hatemenela, najlepiej samo echo (będzie się można pochwalić że wypisuje do STDouta mmmmmm przekierowanie)
 
+        echo " <div class='block'>"
 
+        echo " <h1>Pliki użytkownika</h1> "
+        while read p; do
+            sp=($p)
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
+            #echo "$p">>katalog.html
+        done < .py.txt
+        echo "</div>"
+        
+        echo " <div class='block'>"
+        echo " <h1>Pliki tekstowe</h1> "
+        while read p; do
+            sp=($p)
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
+            #echo "$p">>katalog.html
+        done < doc.txt
+        echo "</div>"
+
+
+        echo " <div class='block'>"
+        echo " <h1>Pliki dźwiękowe</h1> "
+        while read p; do
+            sp=($p)
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
+            #echo "$p">>katalog.html
+        done < music.txt
+        echo "</div>"
+
+
+        echo " <div class='block'>"
+        echo " <h1>Pliki graficzne</h1> "
+        while read p; do
+            sp=($p)
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
+            #echo "$p">>katalog.html
+        done < img.txt
+        echo "</div>"
+
+        echo " </main></body></html> "
+        cat img.txt
+        #------
         rm img.txt
         rm music.txt
         rm doc.txt
