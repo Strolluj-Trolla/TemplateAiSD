@@ -21,12 +21,13 @@ else
         sort=$1
         if [ -d $2 ];
         then
-            graphics=(".png", ".gif", ".jpg", ".svg")
-            music=(".mp3", ".ogg", ".flac", ".wav")
-            documents=(".pdf", ".odt", ".txt", ".docx", ".csv")
+            graphics=(".png" ".gif" ".jpg" ".svg")
+            music=(".mp3" ".ogg" ".flac" ".wav")
+            documents=(".pdf" ".odt" ".txt" ".docx" ".csv")
             echo -e "Name\tPath\tLast modified" > tmpimg.txt
             for graphic_ext in ${graphics[@]}; do
                 for file in $(find ${2} -name "*${graphic_ext}"); do
+                
                     for x in $(echo ${file} | tr "/" " "); do
                         name=$x
                     done
