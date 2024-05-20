@@ -168,7 +168,6 @@ else
         echo "</div>"
 
         echo " </main></body></html> "
-        cat img.txt
         #------
         rm img.txt
         rm music.txt
