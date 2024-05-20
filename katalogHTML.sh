@@ -127,7 +127,7 @@ else
         
         #------
         
-        echo "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Katalog HTML</title><style>body {background-color: #151515;}header {text-align: center;}.block {width: 100%;border-radius: 40px;background-color: #A91D3A; text-align: center; display: flex; margin: 20px; justify-content: center; flex-wrap: wrap;} .item {margin: 10px; width: 20%; text-align: center; border-radius: 20px;background-color: #C7B7A3; }</style></head><body><header><h1 style='color: #C7B7A3;'>Katalog HTML</h1></header><main>"
+        echo "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Katalog HTML</title><style>body {font-family: 'Courier New', monospace;background-color: #151515;}header {text-align: center;}.block {width: 100%;border-radius: 40px;background-color: #A91D3A; text-align: center; display: flex; margin: 20px; justify-content: center; flex-wrap: wrap;} .item {margin: 10px; width: 20%; text-align: center; border-radius: 20px;background-color: #C7B7A3; }</style></head><body><header><h1 style='color: #C7B7A3;'>Katalog HTML</h1></header><main>"
         if [ ${#customExts[@]} -ne 0 ]
         then
             for ext in ${customExts[@]};do
