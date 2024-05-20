@@ -124,51 +124,58 @@ else
                 rm "tmp${ext}.txt"
             done
         fi
-        echo "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Katalog HTML</title><style>header {text-align: center;}.block {width: 20%;border-radius: 20px;background-color: bisque;text-align: center;float: left;}</style></head><body><header><h1>Katalog HTML</h1></header><main>"
-        #------
-        #tu zrób wypisywanie do hatemenela, najlepiej samo echo (będzie się można pochwalić że wypisuje do STDouta mmmmmm przekierowanie)
-
-        echo " <div class='block'>"
-
-        echo " <h1>Pliki użytkownika</h1> "
-        while read p; do
-            sp=($p)
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
-            #echo "$p">>katalog.html
-        done < .py.txt
-        echo "</div>"
         
+        #------
+        
+        echo "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Katalog HTML</title><style>body {background-color: #151515;}header {text-align: center;}.block {width: 100%;border-radius: 40px;background-color: #A91D3A; text-align: center; display: flex; margin: 20px; justify-content: center; flex-wrap: wrap;} .item {margin: 10px; width: 20%; text-align: center; border-radius: 20px;background-color: #C7B7A3; }</style></head><body><header><h1 style='color: #C7B7A3;'>Katalog HTML</h1></header><main>"
+        if [ ${#customExts[@]} -ne 0 ]
+        then
+            for ext in ${customExts[@]};do
+                echo " <div class='block'>"
+                echo " <div style='width: 100%'><h1>Pliki $ext </h1><br></div>"
+            
+                while read p; do
+                    sp=($p)
+                    echo "<div class='item'>"
+                    echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
+                done < "${ext}.txt"
+                echo "</div>"
+            done
+        fi
+        
+
         echo " <div class='block'>"
-        echo " <h1>Pliki tekstowe</h1> "
+        echo " <div style='width: 100%'><h1>Pliki tekstowe</h1><br></div> "
         while read p; do
             sp=($p)
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
-            #echo "$p">>katalog.html
+            echo "<div class='item'>"
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
         done < doc.txt
         echo "</div>"
 
 
         echo " <div class='block'>"
-        echo " <h1>Pliki dźwiękowe</h1> "
+        echo " <div style='width: 100%'><h1>Pliki dźwiękowe</h1><br></div> "
         while read p; do
             sp=($p)
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
-            #echo "$p">>katalog.html
+            echo "<div class='item'>"
+            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
         done < music.txt
         echo "</div>"
 
 
         echo " <div class='block'>"
-        echo " <h1>Pliki graficzne</h1> "
+        echo " <div style='width: 100%'><h1>Pliki graficzne</h1><br></div> "
         while read p; do
             sp=($p)
+            echo "<div class='item'>"
             echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
-            #echo "$p">>katalog.html
+            echo "<img src='${sp[1]}' width="200"></img></div>"
         done < img.txt
         echo "</div>"
 
         echo " </main></body></html> "
-        cat img.txt
+        
         #------
         rm img.txt
         rm music.txt
