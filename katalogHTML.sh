@@ -128,12 +128,17 @@ else
             for ext in ${customExts[@]};do
                 echo " <div class='block'>"
                 echo " <div style='width: 100%'><h1>Pliki $ext </h1><br></div>"
-            
-                while read p; do
-                    sp=($p)
+
+                length=$(cat "${ext}.txt" | wc -l)
+                i=1
+                while [ $i -le $length ]; do
+                    name=$(cat "${ext}.txt" | tail -n+${i} | head -n 1 | cut -f 1)
+                    file=$(cat "${ext}.txt" | tail -n+${i} | head -n 1 | cut -f 2)
+                    date=$(cat "${ext}.txt" | tail -n+${i} | head -n 1 | cut -f 3)
+                    i=$(($i+1))
                     echo "<div class='item'>"
-                    echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
-                done < "${ext}.txt"
+                    echo "<h2> ${name} </h2><a href='${file}'>${file} </a><p> ${date}</p></div>"
+                done
                 echo "</div>"
             done
         fi
@@ -141,32 +146,47 @@ else
 
         echo " <div class='block'>"
         echo " <div style='width: 100%'><h1>Pliki tekstowe</h1><br></div> "
-        while read p; do
-            sp=($p)
+        length=$(cat doc.txt | wc -l)
+        i=1
+        while [ $i -le $length ]; do
+            name=$(cat doc.txt | tail -n+${i} | head -n 1 | cut -f 1)
+            file=$(cat doc.txt | tail -n+${i} | head -n 1 | cut -f 2)
+            date=$(cat doc.txt | tail -n+${i} | head -n 1 | cut -f 3)
+            i=$(($i+1))
             echo "<div class='item'>"
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
-        done < doc.txt
+            echo "<h2> ${name} </h2><a href='${file}'>${file} </a><p> ${date}</p></div>"
+        done
         echo "</div>"
 
 
         echo " <div class='block'>"
         echo " <div style='width: 100%'><h1>Pliki dźwiękowe</h1><br></div> "
-        while read p; do
-            sp=($p)
+        length=$(cat music.txt | wc -l)
+        i=1
+        while [ $i -le $length ]; do
+            name=$(cat music.txt | tail -n+${i} | head -n 1 | cut -f 1)
+            file=$(cat music.txt | tail -n+${i} | head -n 1 | cut -f 2)
+            date=$(cat music.txt | tail -n+${i} | head -n 1 | cut -f 3)
+            i=$(($i+1))
             echo "<div class='item'>"
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p></div>"
-        done < music.txt
+            echo "<h2> ${name} </h2><a href='${file}'>${file} </a><p> ${date}</p></div>"
+        done
         echo "</div>"
 
 
         echo " <div class='block'>"
         echo " <div style='width: 100%'><h1>Pliki graficzne</h1><br></div> "
-        while read p; do
-            sp=($p)
+        length=$(cat img.txt | wc -l)
+        i=1
+        while [ $i -le $length ]; do
+            name=$(cat img.txt | tail -n+${i} | head -n 1 | cut -f 1)
+            file=$(cat img.txt | tail -n+${i} | head -n 1 | cut -f 2)
+            date=$(cat img.txt | tail -n+${i} | head -n 1 | cut -f 3)
+            i=$(($i+1))
             echo "<div class='item'>"
-            echo "<h2> ${sp[0]} </h2><a href='${sp[1]}'>${sp[1]} </a><p> ${sp[2]} ${sp[3]} ${sp[4]}</p>"
-            echo "<img src='${sp[1]}' width="200"></img></div>"
-        done < img.txt
+            echo "<h2> ${name} </h2><a href='${file}'>${file} </a><p> ${date}</p>"
+            echo "<img src='${file}' width="200"></img></div>"
+        done
         echo "</div>"
 
         echo " </main></body></html> "
