@@ -23,7 +23,7 @@ else
         then
             graphics=(".png" ".gif" ".jpg" ".svg")
             music=(".mp3" ".ogg" ".flac" ".wav")
-            documents=(".pdf" ".odt" ".txt" ".docx" ".csv")
+            documents=(".pdf" ".odt" ".txt" ".docx" ".doc" ".csv")
             echo -e "Name\tPath\tLast modified" > tmpimg.txt
             for graphic_ext in ${graphics[@]}; do
                 find ${2} -name "*${graphic_ext}" > tmp.txt
@@ -207,3 +207,5 @@ else
         echo "Aby wywołać pomoc, uruchom używając składni katalogHTML.sh --help lub katalogHTML.sh -h"
     fi
 fi
+
+exit 0
