@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -eq 0 ] || [ $1 = "--help" ] || [ $1 = "-h" ];
+if [ $# -eq 0 -o $1 = "--help" ] || [ $1 = "-h" ];
 then
     echo "katalogHTML.sh --help, katalogHTML.sh -h : Wywołanie pomocy"
     echo "katalogHTML.sh <-s|-r|-u> KATALOG [-c LISTA ROZSZERZEŃ]"
@@ -26,7 +26,7 @@ else
             documents=(".pdf" ".odt" ".txt" ".docx" ".doc" ".csv")
             echo -e "Name\tPath\tLast modified" > tmpimg.txt
             for graphic_ext in ${graphics[@]}; do
-                find ${2} -name "*${graphic_ext}" > tmp.txt
+                find $2 -name "*${graphic_ext}" > tmp.txt
                 while read file; do #for file in $(find ${2} -name "*${graphic_ext}"); do
                     name=$(echo ${file} | tr "/" "\n" | tail -n 1)
                     lastModified=$(ls -l "${file}" | tr -s " " | cut -d " " -f 6-8 | cat)
