@@ -1,5 +1,6 @@
 import hamilton
 import sys
+import copy
 from time import time
 
 def is_number(s):
@@ -38,15 +39,18 @@ if __name__ == "__main__":
             sys.exit(2)
         response=int(response)
         saturation=response
+
+        graph = hamilton.gen_Hamiltonian_graph(node_count, saturation)
     
     if sys.argv[1]=="--non-hamilton":
         #get nodes count
-        print("Provide node count")
         response=input("nodes> ")
         if not is_number(response):
             print("Invalid type.")
             sys.exit(2)
         node_count = int(response)
+
+        graph = hamilton.generate_non_hamiltonian_graph(node_count)
 
     #display instructions
     help()
@@ -59,12 +63,21 @@ if __name__ == "__main__":
 
         if response=="Help":
             help()
-
-        if response=="Non-hamilton":
-            graph = hamilton.generate_non_hamiltonian_graph(node_count)
         
         if response=="Print":
             print(graph)
 
+        if response=="Hamiltonian":
+            Visited_vert = [False] * node_count
+            visited = 0
+            current_path = []
+            print(hamilton.Hcycle(graph, node_count, visited, Visited_vert, current_path))
+
+        if response=="Euler":
+            Visited_vert = [False] * node_count
+            visited = 0
+            current_path = []
+            tmp = copy.deepcopy(graph)
+            print(hamilton.euler(tmp, 0, [], node_count))
 
 sys.exit(0)
