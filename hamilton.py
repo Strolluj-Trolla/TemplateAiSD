@@ -8,37 +8,37 @@ class graph():
     def gen_Hamiltonian_graph(self, node_count,saturation):
         matrix=[[0 for j in range(node_count)] for i in range(node_count)]
         edge_count=int(saturation/100*node_count*(node_count-1)//2)
+        
         if(node_count==1):
-            return matrix
+            self.matrix = matrix
         if(edge_count<node_count):
             print("Nie można stworzyć grafu nieskierowanego z cyklem Hamiltona.")
-            return None
-        used=[False]*node_count
-        curr=random.randint(0,node_count-1)
+            return -1
+        
+        unused=[x for x in range(node_count)]
+        curr=random.choice(unused)
+        unused.remove(curr)
         start=curr
-        used[curr]=True
-        for i in range(node_count-1): #make cycle
+        for i in range(1,node_count): #make cycle
             prev=curr
-            curr=random.randint(0,node_count-1)
-            while(used[curr]==True):
-                curr=random.randint(0,node_count-1)
-            used[curr]=True
+            curr=random.choice(unused)
+            unused.remove(curr)
             matrix[prev][curr]=1
             matrix[curr][prev]=1
         matrix[start][curr] = 1
         matrix[curr][start] = 1
+
         for i in range(edge_count-node_count): #add edges so graph can have given saturation
-            v1=random.randint(0,node_count-1)
-            v2=random.randint(0,node_count-1)
-            while(v2==v1):
-                v2=random.randint(0,node_count-1)
-            while(matrix[v1][v2]==1):
+            valid = False
+            while(not valid):
                 v1 = random.randint(0, node_count - 1)
                 v2 = random.randint(0, node_count - 1)
                 while (v2 == v1):
                     v2 = random.randint(0, node_count - 1)
+                valid = not (matrix[v1][v2]==1)
             matrix[v1][v2]=1
             matrix[v2][v1]=1
+        
         self.matrix =  matrix
 
 
@@ -47,43 +47,76 @@ class graph():
         matrix = [[0] * n for _ in range(n)]
         count = 0
         if edges_amount < n - 1:
-            print("Wrong node count or saturation")
-            return
+            print("Unable to generate non-hamiltonian graph.")
+            return -1
 
-        start = random.randint(0, n-1)
-        lst = []
-        tmp = start
-        lst.append(start)
-        while count < n - 1:
-            v2 = random.randint(0, n-1)
-            if v2 not in lst:
-                matrix[tmp][v2] = 1
-                matrix[v2][tmp] = 1
-                lst.append(v2)
-                tmp = v2
-                count += 1
+        # start = random.randint(0, n-1)
+        # lst = []
+        # tmp = start
+        # lst.append(start)
+        # while count < n - 1:
+        #     v2 = random.randint(0, n-1)
+        #     if v2 not in lst:
+        #         matrix[tmp][v2] = 1
+        #         matrix[v2][tmp] = 1
+        #         lst.append(v2)
+        #         tmp = v2
+        #         count += 1
 
-        matrix[start][tmp] = 1
-        matrix[tmp][start] = 1
+        # matrix[start][tmp] = 1
+        # matrix[tmp][start] = 1
+        # count += 1
+
+        unused=[x for x in range(n)]
+        curr=random.choice(unused)
+        start=curr
+        for i in range(n-1): #make cycle
+            prev=curr
+            curr=random.choice(unused)
+            unused.remove(curr)
+            matrix[prev][curr]=1
+            matrix[curr][prev]=1
+            count += 1;
+        matrix[start][curr] = 1
+        matrix[curr][start] = 1
         count += 1
 
+
+
         while count <= edges_amount:
-            v1 = random.randint(0, n-1)
-            v2 = random.randint(0, n-1)
-            v3 = random.randint(0, n-1)
-            if v1 != v2 and v1 != v3 and v2 != v3 and v1 != start and v3 != start and v2 != start:
-                if matrix[v1][v2] == 0 and matrix[v2][v3] == 0 and matrix[v1][v3] == 0:
-                    matrix[v1][v2] = 1
-                    matrix[v2][v1] = 1
-                    matrix[v1][v3] = 1
-                    matrix[v3][v1] = 1
-                    matrix[v3][v2] = 1
-                    matrix[v2][v3] = 1
-                    count += 3
+            valid = False
+            while(not valid):
+                v1 = random.randint(0, n - 1)
+                v2 = random.randint(0, n - 1)
+                while (v2 == v1):
+                    v2 = random.randint(0, n - 1)
+                v3 = random.randint(0, n - 1)
+                while (v3 == v1) or (v3 == v2):
+                    v3 = random.randint(0, n - 1)
+                valid = (matrix[v1][v2] == 0 and matrix[v2][v3] == 0 and matrix[v1][v3] == 0)
+
+            matrix[v1][v2] = 1
+            matrix[v2][v1] = 1
+            matrix[v1][v3] = 1
+            matrix[v3][v1] = 1
+            matrix[v3][v2] = 1
+            matrix[v2][v3] = 1
+            count += 3
+            # v1 = random.randint(0, n-1)
+            # v2 = random.randint(0, n-1)
+            # v3 = random.randint(0, n-1)
+            # if v1 != v2 and v1 != v3 and v2 != v3 and v1 != start and v3 != start and v2 != start:
+            #     if matrix[v1][v2] == 0 and matrix[v2][v3] == 0 and matrix[v1][v3] == 0:
+            #         matrix[v1][v2] = 1
+            #         matrix[v2][v1] = 1
+            #         matrix[v1][v3] = 1
+            #         matrix[v3][v1] = 1
+            #         matrix[v3][v2] = 1
+            #         matrix[v2][v3] = 1
+            #         count += 3
 
         for i in range(n):
             matrix[start][i] = 0
-        for i in range(n):
             matrix[i][start] = 0
 
         self.matrix = matrix
@@ -141,11 +174,11 @@ class graph():
         nodeCount=len(self.matrix)
         res+=" |"
         for i in range(nodeCount):
-            res+=str(i+1)+" "
+            res+=str(i)+" "
         res+="\n_+"
         for i in range(nodeCount):
             res+="__"
         res+="\n"
         for i, row in enumerate(self.matrix):
-            res+=str(i+1)+"|"+str(row).replace("[","").replace("]","").replace(",","")+"\n"
+            res+=str(i)+"|"+str(row).replace("[","").replace("]","").replace(",","")+"\n"
         return res

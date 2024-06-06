@@ -38,14 +38,15 @@ if __name__ == "__main__":
         node_count = int(response)
 
         #get saturation
-        response=input("saturation> ")
+        response=input("saturation(30 or 70)> ")
         if int(response) not in [30 ,70]:
-            print("Invalid type.")
+            print("Invalid type or unsupported value.")
             sys.exit(2)
         response=int(response)
         saturation=response
 
-        graph.gen_Hamiltonian_graph(node_count, saturation)
+        if (graph.gen_Hamiltonian_graph(node_count, saturation)==-1):
+            sys.exit(3)
     
     if sys.argv[1]=="--non-hamilton":
         #get nodes count
@@ -55,7 +56,8 @@ if __name__ == "__main__":
             sys.exit(2)
         node_count = int(response)
 
-        graph.generate_non_hamiltonian_graph(node_count)
+        if (graph.generate_non_hamiltonian_graph(node_count)==-1):
+            sys.exit(3)
 
     #display instructions
     help()
