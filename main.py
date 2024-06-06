@@ -1,4 +1,4 @@
-import hamilton
+from hamilton import graph
 import sys
 import copy
 from time import time
@@ -26,6 +26,7 @@ if __name__ == "__main__":
         print("Usage: main.py --hamilton or main.py --non-hamilton")
         sys.exit(1)
 
+    graph = graph()
     sys.setrecursionlimit(10**7)
     if sys.argv[1]=="--hamilton":
         #get nodes count
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         response=int(response)
         saturation=response
 
-        graph = hamilton.gen_Hamiltonian_graph(node_count, saturation)
+        graph.gen_Hamiltonian_graph(node_count, saturation)
     
     if sys.argv[1]=="--non-hamilton":
         #get nodes count
@@ -54,7 +55,7 @@ if __name__ == "__main__":
             sys.exit(2)
         node_count = int(response)
 
-        graph = hamilton.generate_non_hamiltonian_graph(node_count)
+        graph.generate_non_hamiltonian_graph(node_count)
 
     #display instructions
     help()
@@ -75,13 +76,13 @@ if __name__ == "__main__":
             Visited_vert = [False] * node_count
             visited = 0
             current_path = []
-            print(hamilton.Hcycle(graph, node_count, visited, Visited_vert, current_path))
+            print(graph.Hcycle(node_count, visited, Visited_vert, current_path))
 
         if response=="Euler":
             #Visited_vert = [False] * node_count
             #visited = 0
             #current_path = []
-            tmp = copy.deepcopy(graph)
-            print(hamilton.euler(tmp, 0, [], node_count))
+            tmp = copy.deepcopy(graph.matrix)
+            print(graph.euler(tmp, 0, [], node_count))
 
 sys.exit(0)
