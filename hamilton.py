@@ -50,26 +50,10 @@ class graph():
             print("Unable to generate non-hamiltonian graph.")
             return -1
 
-        # start = random.randint(0, n-1)
-        # lst = []
-        # tmp = start
-        # lst.append(start)
-        # while count < n - 1:
-        #     v2 = random.randint(0, n-1)
-        #     if v2 not in lst:
-        #         matrix[tmp][v2] = 1
-        #         matrix[v2][tmp] = 1
-        #         lst.append(v2)
-        #         tmp = v2
-        #         count += 1
-
-        # matrix[start][tmp] = 1
-        # matrix[tmp][start] = 1
-        # count += 1
-
         unused=[x for x in range(n)]
         curr=random.choice(unused)
         start=curr
+        unused.remove(curr)
         for i in range(n-1): #make cycle
             prev=curr
             curr=random.choice(unused)
@@ -80,8 +64,6 @@ class graph():
         matrix[start][curr] = 1
         matrix[curr][start] = 1
         count += 1
-
-
 
         while count <= edges_amount:
             valid = False
@@ -102,18 +84,6 @@ class graph():
             matrix[v3][v2] = 1
             matrix[v2][v3] = 1
             count += 3
-            # v1 = random.randint(0, n-1)
-            # v2 = random.randint(0, n-1)
-            # v3 = random.randint(0, n-1)
-            # if v1 != v2 and v1 != v3 and v2 != v3 and v1 != start and v3 != start and v2 != start:
-            #     if matrix[v1][v2] == 0 and matrix[v2][v3] == 0 and matrix[v1][v3] == 0:
-            #         matrix[v1][v2] = 1
-            #         matrix[v2][v1] = 1
-            #         matrix[v1][v3] = 1
-            #         matrix[v3][v1] = 1
-            #         matrix[v3][v2] = 1
-            #         matrix[v2][v3] = 1
-            #         count += 3
 
         for i in range(n):
             matrix[start][i] = 0
@@ -122,12 +92,6 @@ class graph():
         self.matrix = matrix
 
 
-
-    # Array to mark visited vertices
-    # Counter for visited vertices
-    # List to keep track of visited vertices in the current path
-
-    # node (number), graph
     def Hamiltonian(self, v,  node_count, visited, Visited_vert, current_path):
         adj_matrix = self.matrix
         start = node_count - 1
@@ -150,7 +114,6 @@ class graph():
 
     # graph
     def Hcycle(self, node_count, visited, Visited_vert, current_path):
-        adj_matrix = self.matrix;
         if self.Hamiltonian(node_count - 1, node_count, visited, Visited_vert, current_path):
             current_path.append(node_count - 1)
             return current_path
@@ -159,7 +122,6 @@ class graph():
 
     # graph, node (number), list 
     def euler(self, matrix, v, s, node_count):
-
         for i in range(node_count):
             if matrix[v][i] == 1:
                 matrix[v][i] = 0

@@ -1,7 +1,7 @@
 from hamilton import graph
 import sys
 import copy
-from time import time
+#from time import time
 
 def is_number(s):
     try:
