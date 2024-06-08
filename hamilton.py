@@ -19,25 +19,38 @@ class graph():
         curr=random.choice(unused)
         unused.remove(curr)
         start=curr
+        count=0
         for i in range(1,node_count): #make cycle
             prev=curr
             curr=random.choice(unused)
             unused.remove(curr)
             matrix[prev][curr]=1
             matrix[curr][prev]=1
+            count+=1
         matrix[start][curr] = 1
         matrix[curr][start] = 1
+        count+=1
 
-        for i in range(edge_count-node_count): #add edges so graph can have given saturation
+        while count <= edge_count:
             valid = False
             while(not valid):
                 v1 = random.randint(0, node_count - 1)
                 v2 = random.randint(0, node_count - 1)
                 while (v2 == v1):
                     v2 = random.randint(0, node_count - 1)
-                valid = not (matrix[v1][v2]==1)
-            matrix[v1][v2]=1
-            matrix[v2][v1]=1
+                v3 = random.randint(0, node_count - 1)
+                while (v3 == v1) or (v3 == v2):
+                    v3 = random.randint(0, node_count - 1)
+                valid = (matrix[v1][v2] == 0 and matrix[v2][v3] == 0 and matrix[v1][v3] == 0)
+
+            matrix[v1][v2] = 1
+            matrix[v2][v1] = 1
+            matrix[v1][v3] = 1
+            matrix[v3][v1] = 1
+            matrix[v3][v2] = 1
+            matrix[v2][v3] = 1
+            count += 3
+            
         
         self.matrix =  matrix
 

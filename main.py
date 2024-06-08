@@ -81,9 +81,6 @@ if __name__ == "__main__":
             print(graph.Hcycle(node_count, visited, Visited_vert, current_path))
 
         if response=="Euler":
-            #Visited_vert = [False] * node_count
-            #visited = 0
-            #current_path = []
             tmp = copy.deepcopy(graph.matrix)
             print(graph.euler(tmp, 0, [], node_count))
 
