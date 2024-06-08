@@ -1,7 +1,7 @@
 from hamilton import graph
 import sys
 import copy
-#from time import time
+from time import time
 
 def is_number(s):
     try:
@@ -9,7 +9,18 @@ def is_number(s):
         return True
     except ValueError:
         return False
-    
+
+def save_time(startTime :float, size: int, isHamilton: bool, filename :str) -> None:
+    timeElapsed = time()-startTime
+    if isHamilton:
+        filename+="_Hamilton.csv"
+    else:
+        filename+="_non_Hamilton.csv"
+    with open(filename, "a") as file:
+        file.write(str(size)+", "+str(timeElapsed)+"\n")
+    return
+
+
 def help():
     print("Available instructions:")
     print("Help - display this information;")
@@ -45,8 +56,12 @@ if __name__ == "__main__":
         response=int(response)
         saturation=response
 
+        hamilton=True
+
+        startTime=time()
         if (graph.gen_Hamiltonian_graph(node_count, saturation)==-1):
             sys.exit(3)
+        save_time(startTime, node_count, hamilton, "generate")
     
     if sys.argv[1]=="--non-hamilton":
         #get nodes count
@@ -56,8 +71,12 @@ if __name__ == "__main__":
             sys.exit(2)
         node_count = int(response)
 
+        hamilton=False
+
+        startTime=time()
         if (graph.generate_non_hamiltonian_graph(node_count)==-1):
             sys.exit(3)
+        save_time(startTime, node_count, hamilton, "generate")
 
     #display instructions
     help()
@@ -78,10 +97,14 @@ if __name__ == "__main__":
             Visited_vert = [False] * node_count
             visited = 0
             current_path = []
+            startTime=time()
             print(graph.Hcycle(node_count, visited, Visited_vert, current_path))
+            save_time(startTime, node_count, hamilton, "find_Hamilton_path")
 
         if response=="Euler":
             tmp = copy.deepcopy(graph.matrix)
+            startTime=time()
             print(graph.euler(tmp, 0, [], node_count))
+            save_time(startTime, node_count, hamilton, "find_Euler_path")
 
 sys.exit(0)
