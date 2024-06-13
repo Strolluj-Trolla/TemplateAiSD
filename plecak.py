@@ -1,4 +1,5 @@
 import random
+from copy import deepcopy
 
 def mergeSort(bp):
     if (len(bp)>1):
@@ -9,7 +10,7 @@ def mergeSort(bp):
         mergeSort(right)
         i=j=k=0
         while (i<len(left) and j<len(right)):
-            if (left[i][0]/left[i][1]>=right[j][0]/right[j][1]):
+            if (left[i][1][0]/left[i][1][1]>=right[j][1][0]/right[j][1][1]):
                 bp[k]=left[i]
                 i+=1
             else:
@@ -33,10 +34,10 @@ class plecak():
         self.c = 0
 
 
-    def __init__(self, bp, n, c):
-        self.bp = bp
-        self.n = n
-        self.c = c
+    # def __init__(self, bp, n, c):
+    #     self.bp = bp
+    #     self.n = n
+    #     self.c = c
 
 
     def _check(self, temp):
@@ -53,19 +54,19 @@ class plecak():
     
 
     def from_input(self):
-        temp=input("Podaj ilość elementów i rozmiar plecaka: ").split(" ")
+        temp=input("Element count and backpack capacity: ").split(" ")
         while(self._check(temp)):
-            print("Podano niewłaściwe dane.")
-            temp=input("Podaj ilość elementów i rozmiar plecaka: ").split(" ")
+            print("Invalid data.")
+            temp=input("Element count and backpack capacity: ").split(" ")
         #(n,b)=(int(x) for x in input("Podaj ilość elementów i rozmiar plecaka: ").split(" "))
         (self.n,self.c)=temp
         self.bp=[]
         for i in range(self.n):
             #(w,r)=(int(x) for x in input("Podaj rozmiar i wartość przedmiotu: ").split(" "))
-            temp=input("Podaj rozmiar i wartość przedmiotu: ").split(" ")
+            temp=input("Weight and value of item "+str(i+1)+": ").split(" ")
             while(self._check(temp)):
-                print("Podajno niewłaściwe dane.")
-                temp=input("Podaj rozmiar i wartość przedmiotu: ").split(" ")
+                print("Invalid input.")
+                temp=input("Weight and value of item "+str(i+1)+": ").split(" ")
             (w,r)=temp
             (r,w)=(w,r) # ROZMIAR WARTOŚĆ
             self.bp.append([w,r])
@@ -84,8 +85,10 @@ class plecak():
         return
     
 
-    def gen(self):
+    def gen(self, n, c):
         self.bp=[]
+        self.n=n
+        self.c=c
         for _ in range(self.n):
             self.bp.append([random.randint(1,10),random.randint(1,10)])
         return
@@ -107,24 +110,27 @@ class plecak():
         sum_size=0
         for i in range(self.n,-1,-1):
             if(matrix[i][j]>matrix[i-1][j]):
-                solution.insert(0,self.bp[i-1])
+                solution.insert(0,i)
                 j-=self.bp[i-1][1]
                 sum_size+=self.bp[i-1][1]
         
         return (solution, sum_size,matrix[self.n][self.c])
     
     def greedy(self):
+        tmp=[]
+        for i, elem in enumerate(self.bp):
+            tmp.append([i+1, elem])
         solution=[]
         size=0
         value=0
         i=0
-        mergeSort(self.bp)
+        mergeSort(tmp)
         #print(self.bp)
         while(i<self.n and size<=self.c):
-            if(size+self.bp[i][1]<=self.c):
-                solution.insert(0,self.bp[i])
-                size+=self.bp[i][1]
-                value+=self.bp[i][0]
+            if(size+tmp[i][1][1]<=self.c):
+                solution.insert(0,tmp[i][0])
+                size+=tmp[i][1][1]
+                value+=tmp[i][1][0]
             i+=1
         return (solution, size, value)
     
@@ -141,11 +147,17 @@ class plecak():
                 if(int(x[i])):
                     size+=self.bp[i][1]
                     value+=self.bp[i][0]
-                    temp.append(self.bp[i])
+                    temp.append(i+1)
             if(size<=self.c):
                 if(value>max_value):
                     max_value=value
                     max_size=size
                     solution=temp
         return (solution, max_size, max_value)
+    
+    def __str__(self):
+        res="Capacity: "+str(self.c)+", "+str(self.n)+" elements:\n"
+        for i, element in enumerate(self.bp):
+            res+=str(i+1)+") value: "+str(element[0])+", weight: "+str(element[1])+"\n"
+        return res
 

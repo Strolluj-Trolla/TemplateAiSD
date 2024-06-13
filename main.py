@@ -1,41 +1,92 @@
-import random
 import time
+import sys
 from plecak import plecak
 
-'''while(True):
-    print("Wybier sposób wprowadzenia plecaka:")
-    print("0 - z klawiatury")
-    print("1 - z pliku")
-    print("2 - wyjdź")
-    x=input()
+
+def is_number(s):
     try:
-        x=int(x)
-        if(x>=0 and x<=2):
-            break
-        else:
-            print("Należy wpisać 0, 1 lub 2.")
+        int(s)
+        return True
     except ValueError:
-        print("Należy wpisać 0, 1 lub 2.")
-(bp,n,b)=(0,0,0)
-if(x==0):
-    (bp,n,b)=from_input()
-elif(x==1):
-    (bp,n,b)=from_file("bp.txt")
-if(x!=2):
-    solutions=[]
-    names=["programowania dynamicznego","zachłanny","siłowy"]
-    solutions.append(dynamic(bp,n,b))
-    solutions.append(greedy(bp.copy(),n,b))
-    solutions.append(brute(bp,n,b))
-    for i in range(3):
-        print(f"*** Algorytm {names[i]} ***")
-        print("    Elementy wybrane:")
-        for item in solutions[i][0]:
-            print(f"        Rozmiar: {item[1]}, Wartość: {item[0]}")
-        print(f"    Sumaryczny rozmiar: {solutions[i][1]}")
-        print(f"    Wartość funkcji celu: {solutions[i][2]}")'''
-#(bp,n,b)=gen(10,10)
-#(bp,n,b)=([[3, 6], [9, 2], [4, 7], [2, 5], [4, 4], [3, 3], [8, 4], [4, 2], [8, 4], [3, 4]], 10, 10)
-backpack=plecak([[5, 9], [10, 1], [10, 5], [10, 10], [4, 9], [4, 7], [6, 4], [5, 1], [6, 4], [1, 6]], 10 ,10)
-print(backpack.dynamic())
-print(backpack.greedy())
+        return False
+
+def save_time(startTime :float, size: int, isHamilton: bool, filename :str) -> None:
+    timeElapsed = time()-startTime
+    if isHamilton:
+        filename+="_Hamilton.csv"
+    else:
+        filename+="_non_Hamilton.csv"
+    with open(filename, "a") as file:
+        file.write(str(size)+", "+str(timeElapsed)+"\n")
+    return
+
+
+def help():
+    print("Available instructions:")
+    print("Help - display this information;")
+    print("Print - print the problem's parameters;")
+    print("Dynamic - solve using dynamic programming;")
+    print("Greedy - solve using a greedy algorythm;")
+    print("Brute-force - solve using brute force;")
+    print("Exit - exit the program.")
+    print("")
+
+# Checks if the Python script is being run as the main program (not imported as a module)
+if __name__ == "__main__":
+
+    #check arguments
+    if len(sys.argv)<2 or not sys.argv[1] in ["--keyboard", "--file", "--random"]:
+        print("Usage: main.py --keyboard or main.py --random")
+        sys.exit(1)
+
+    
+    sys.setrecursionlimit(10**7)
+
+    backpack = plecak()
+
+    if sys.argv[1]=="--keyboard":
+        backpack.from_input()
+    
+    if sys.argv[1]=="--random":
+        n=input("Number of elements>")
+        if is_number(n):
+            n=int(n)
+        else:
+            print("Invalid value")
+            sys.exit(5)
+        c=input("Capacity>")
+        if is_number(c):
+            c=int(c)
+        else:
+            print("Invalid value")
+            sys.exit(5)
+        backpack.gen(n,c)
+
+    #display instructions
+    help()
+    #main loop
+    while True:
+        response=input(">")
+
+        if response=="Exit":
+            break
+
+        if response=="Help":
+            help()
+        
+        if response=="Print":
+            print(backpack)
+
+        if response=="Dynamic":
+            solution, weight, value=backpack.dynamic()
+            print("Packed elements: "+str(solution).replace("[","").replace("]","").replace(",", "")+"; weight: "+str(weight)+"; value: "+str(value)+".")
+
+        if response=="Greedy":
+            solution, weight, value=backpack.greedy()
+            print("Packed elements: "+str(solution).replace("[","").replace("]","").replace(",", "")+"; weight: "+str(weight)+"; value: "+str(value)+".")
+
+        if response=="Brute-force":
+            solution, weight, value=backpack.dynamic()
+            print("Packed elements: "+str(solution).replace("[","").replace("]","").replace(",", "")+"; weight: "+str(weight)+"; value: "+str(value)+".")
+
+sys.exit(0)
